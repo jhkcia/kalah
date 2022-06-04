@@ -30,4 +30,30 @@ public class PitTest {
             }
         }
     }
+
+    @Test
+    public void testIsEmpty() {
+        for (int i = 0; i < 14; i++) {
+            Pit p = new Pit(i);
+            if (i == 6 || i == 13) {
+                Assert.assertTrue(p.isEmpty());
+            } else {
+                Assert.assertFalse(p.isEmpty());
+            }
+        }
+    }
+
+    @Test
+    public void testBelongsTo() {
+        for (int i = 0; i < 14; i++) {
+            Pit p = new Pit(i);
+            if (i <= 6) {
+                Assert.assertTrue(p.belongsToPlayer(0));
+                Assert.assertFalse(p.belongsToPlayer(1));
+            } else {
+                Assert.assertFalse(p.belongsToPlayer(0));
+                Assert.assertTrue(p.belongsToPlayer(1));
+            }
+        }
+    }
 }

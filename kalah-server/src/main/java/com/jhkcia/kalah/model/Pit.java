@@ -29,6 +29,10 @@ public class Pit {
         return !isStore();
     }
 
+    public boolean isEmpty() {
+        return this.getStones() == 0;
+    }
+
     public int getId() {
         return id;
     }
@@ -43,5 +47,10 @@ public class Pit {
 
     public void setStones(int stones) {
         this.stones = stones;
+    }
+
+    public boolean belongsToPlayer(int playerIndex) {
+        return (playerIndex == 0 && this.getId() <= FIRST_STORE_INDEX && this.getId() >= 0) ||
+                (playerIndex == 1 && this.getId() > FIRST_STORE_INDEX && this.getId() <= SECOND_STORE_INDEX);
     }
 }

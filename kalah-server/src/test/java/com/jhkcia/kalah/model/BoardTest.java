@@ -1,6 +1,7 @@
 package com.jhkcia.kalah.model;
 
 import com.jhkcia.kalah.excaption.BoardIsFullException;
+import com.jhkcia.kalah.excaption.InvalidPitException;
 import com.jhkcia.kalah.excaption.InvalidSowException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,6 +18,12 @@ public class BoardTest {
         assertNull(board.getPlayer2());
         assertNull(board.getWinner());
         assertNull(board.getCurrentTurn());
+    }
+
+    @Test
+    public void testGetPitByIndex() {
+        Board board = new Board("user1");
+
         for (int i = 0; i < 14; i++) {
             Pit pit = board.getPitByIndex(i);
             assertEquals(i, pit.getId());
@@ -26,6 +33,11 @@ public class BoardTest {
                 assertEquals(4, pit.getStones());
             }
         }
+        Exception exception = Assert.assertThrows(InvalidPitException.class, () -> board.getPitByIndex(-1));
+        Assert.assertEquals("Pit -1 is not valid.", exception.getMessage());
+        exception = Assert.assertThrows(InvalidPitException.class, () -> board.getPitByIndex(14));
+        Assert.assertEquals("Pit 14 is not valid.", exception.getMessage());
+
     }
 
     @Test
@@ -68,7 +80,7 @@ public class BoardTest {
 
         Exception exception = Assert.assertThrows(InvalidSowException.class, () -> board.sowSeeds("user1", 1));
 
-        Assert.assertEquals("Game is not started yet.", exception.getMessage());
+        Assert.assertEquals("Can not sow pit while game is not playing.", exception.getMessage());
     }
 
     @Test
@@ -79,6 +91,18 @@ public class BoardTest {
         Exception exception = Assert.assertThrows(InvalidSowException.class, () -> board.sowSeeds("user2", 1));
 
         Assert.assertEquals("It is not your turn.", exception.getMessage());
+    }
+
+    @Test
+    public void testShouldNotSowInvalidPitIndex() {
+        Board board = new Board("user1");
+        board.join("user2");
+
+        Exception exception = Assert.assertThrows(InvalidPitException.class, () -> board.sowSeeds("user1", -1));
+        Exception exception2 = Assert.assertThrows(InvalidPitException.class, () -> board.sowSeeds("user1", 14));
+
+        Assert.assertEquals("Pit -1 is not valid.", exception.getMessage());
+        Assert.assertEquals("Pit 14 is not valid.", exception2.getMessage());
     }
 
     @Test
@@ -119,7 +143,7 @@ public class BoardTest {
         BoardTestUtils.setStatus(board, GameStatus.Finished);
         Exception exception = Assert.assertThrows(InvalidSowException.class, () -> board.sowSeeds("user1", 6));
 
-        Assert.assertEquals("Can not sow pit on finished game.", exception.getMessage());
+        Assert.assertEquals("Can not sow pit while game is not playing.", exception.getMessage());
     }
 
     @Test

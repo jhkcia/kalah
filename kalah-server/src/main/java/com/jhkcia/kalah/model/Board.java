@@ -1,6 +1,8 @@
 package com.jhkcia.kalah.model;
 
 import com.jhkcia.kalah.excaption.BoardIsFullException;
+import com.jhkcia.kalah.excaption.InvalidPitException;
+import com.jhkcia.kalah.excaption.InvalidSowException;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
@@ -46,6 +48,9 @@ public class Board {
     }
 
     public Pit getPitByIndex(int index) {
+        if (index < 0 || index >= PITS_COUNT) {
+            throw new InvalidPitException(index);
+        }
         return this.pits.get(index);
     }
 
@@ -85,7 +90,33 @@ public class Board {
         return currentTurn;
     }
 
-    public void sowSeeds(String player, int pitIndex) {
+    private int getCurrentTurnIndex() {
+        if (currentTurn.equals(player1)) {
+            return 0;
+        } else if (currentTurn.equals(player2)) {
+            return 1;
+        }
+        return -1;
 
+    }
+
+    public void sowSeeds(String player, int pitIndex) {
+        if (status != GameStatus.Playing) {
+            throw new InvalidSowException("Can not sow pit while game is not playing.");
+        }
+        if (!currentTurn.equals(player)) {
+            throw new InvalidSowException("It is not your turn.");
+        }
+        Pit pit = getPitByIndex(pitIndex);
+        if (pit.isStore()) {
+            throw new InvalidSowException("Can not sow store pit.");
+        }
+        if (pit.isEmpty()) {
+            throw new InvalidSowException("Can not sow empty pit.");
+        }
+        int playerIndex = getCurrentTurnIndex();
+        if (!pit.belongsToPlayer(playerIndex)) {
+            throw new InvalidSowException("You can only sow your pits.");
+        }
     }
 }
