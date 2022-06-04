@@ -148,38 +148,105 @@ public class BoardTest {
 
     @Test
     public void testShouldCanStoreStoneOnOwnStore() {
+        Board board = new Board("user1");
+        board.join("user2");
 
+        board.sowSeeds("user1", 4);
+
+        assertPitsEquals(new int[]{4, 4, 4, 4, 0, 5, 1, 5, 5, 4, 4, 4, 4, 0}, board);
+        assertEquals("user2", board.getCurrentTurn());
+        assertEquals(GameStatus.Playing, board.getStatus());
+        assertNull(board.getWinner());
     }
 
     @Test
     public void testShouldNotStoreStoneOnOpponentsStore() {
+        Board board = new Board("user1");
+        board.join("user2");
+        BoardTestUtils.setPits(board, new int[]{4, 4, 4, 4, 0, 8, 0, 4, 4, 4, 4, 4, 4, 0});
 
+        board.sowSeeds("user1", 5);
+
+        assertPitsEquals(new int[]{5, 4, 4, 4, 0, 0, 1, 5, 5, 5, 5, 5, 5, 0}, board);
+        assertEquals("user2", board.getCurrentTurn());
+        assertEquals(GameStatus.Playing, board.getStatus());
+        assertNull(board.getWinner());
     }
 
     @Test
     public void testShouldCaptureOpponentsStonesWhenLastSeedLandInOwnEmptyHouse() {
+        Board board = new Board("user1");
+        board.join("user2");
+        BoardTestUtils.setPits(board, new int[]{4, 4, 4, 4, 0, 5, 1, 0, 6, 5, 5, 5, 5, 0});
 
+        board.sowSeeds("user1", 0);
+
+        assertPitsEquals(new int[]{0, 5, 5, 5, 0, 5, 8, 0, 0, 5, 5, 5, 5, 0}, board);
+        assertEquals("user2", board.getCurrentTurn());
+        assertEquals(GameStatus.Playing, board.getStatus());
+        assertNull(board.getWinner());
     }
 
     @Test
     public void testShouldGetAdditionalMoveWhenLastSeedLandInPlayerStore() {
+        Board board = new Board("user1");
+        board.join("user2");
 
+        board.sowSeeds("user1", 2);
+
+        assertPitsEquals(new int[]{4, 4, 0, 5, 5, 5, 1, 4, 4, 4, 4, 4, 4, 0}, board);
+        assertEquals("user1", board.getCurrentTurn());
+        assertEquals(GameStatus.Playing, board.getStatus());
+        assertNull(board.getWinner());
     }
 
     @Test
     public void testEndGameWhenThereIsNoSeed() {
+        Board board = new Board("user1");
+        board.join("user2");
+        BoardTestUtils.setPits(board, new int[]{0, 0, 0, 0, 0, 2, 20, 0, 6, 5, 5, 5, 5, 0});
 
+        board.sowSeeds("user1", 5);
+
+        assertPitsEquals(new int[]{0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 27}, board);
+        assertEquals(null, board.getCurrentTurn());
+        assertEquals(GameStatus.Finished, board.getStatus());
+        assertEquals("user2", board.getWinner());
     }
 
     @Test
     public void testEndGameInDraw() {
+        Board board = new Board("user1");
+        board.join("user2");
+        BoardTestUtils.setPits(board, new int[]{0, 0, 0, 0, 0, 2, 23, 0, 3, 5, 5, 5, 5, 0});
 
+        board.sowSeeds("user1", 5);
+
+        assertPitsEquals(new int[]{0, 0, 0, 0, 0, 0, 24, 0, 0, 0, 0, 0, 0, 24}, board);
+        assertEquals(null, board.getCurrentTurn());
+        assertEquals(GameStatus.Finished, board.getStatus());
+        assertEquals(null, board.getWinner());
     }
 
     @Test
     public void testSowPit() {
         Board board = new Board("user1");
         board.join("user2");
+
+        board.sowSeeds("user1", 0);
+
+        assertPitsEquals(new int[]{0, 5, 5, 5, 5, 4, 0, 4, 4, 4, 4, 4, 4, 0}, board);
+        assertEquals("user2", board.getCurrentTurn());
+        assertEquals(GameStatus.Playing, board.getStatus());
+        assertNull(board.getWinner());
+    }
+
+    //TODO test combination of rules!
+
+    private void assertPitsEquals(int[] expectedPits, Board board) {
+        for (int i = 0; i < expectedPits.length; i++) {
+            assertEquals(String.format("Stones on pit %d are not equal.", i), expectedPits[i], board.getPitByIndex(i).getStones());
+        }
     }
 
 }

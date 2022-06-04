@@ -118,5 +118,80 @@ public class Board {
         if (!pit.belongsToPlayer(playerIndex)) {
             throw new InvalidSowException("You can only sow your pits.");
         }
+
+        int nextIndex = pitIndex;
+        while (!pit.isEmpty()) {
+            nextIndex = ++nextIndex % PITS_COUNT;
+            Pit nextPit = getPitByIndex(nextIndex);
+            if (nextPit.isStore() && !nextPit.belongsToPlayer(playerIndex)) {
+                continue;
+            }
+            pit.removeStone();
+            nextPit.addStone();
+        }
+        Pit lastPit = getPitByIndex(nextIndex);
+        if (!lastPit.isStore() && lastPit.belongsToPlayer(playerIndex) && lastPit.getStones() == 1) {
+            Pit oppositePit = getPitByIndex(lastPit.getOppositePitIndex());
+            if (!oppositePit.isEmpty()) {
+                getPitByIndex(Pit.getStoreIndex(playerIndex)).addStones(oppositePit.getStones() + 1);
+                oppositePit.removeAllStones();
+                lastPit.removeAllStones();
+            }
+
+        }
+
+        boolean hasSeeds = false;
+
+        for (int index : Pit.getStoreIndexes(playerIndex)) {
+            if (!getPitByIndex(index).isEmpty()) {
+                hasSeeds = true;
+                break;
+            }
+        }
+        if (!hasSeeds) {
+            int competitorPlayerIndex = getCompetitorPlayerIndex(playerIndex);
+            for (int index : Pit.getStoreIndexes(competitorPlayerIndex)) {
+                Pit currentPit = getPitByIndex(index);
+                if (!currentPit.isEmpty()) {
+                    getPitByIndex(Pit.getStoreIndex(competitorPlayerIndex)).addStones(currentPit.getStones());
+                    currentPit.removeAllStones();
+                }
+            }
+            int playerScore = getPitByIndex(Pit.getStoreIndex(playerIndex)).getStones();
+            int competitorScore = getPitByIndex(Pit.getStoreIndex(competitorPlayerIndex)).getStones();
+            if (playerScore > competitorScore) {
+                this.winner = currentTurn;
+            } else if (playerScore < competitorScore) {
+                this.winner = getPlayer(competitorPlayerIndex);
+            }
+            this.currentTurn = null;
+            this.status = GameStatus.Finished;
+        } else {
+            if (!(lastPit.isStore() && lastPit.belongsToPlayer(playerIndex))) {
+                this.changeTurn();
+            }
+        }
+    }
+
+    private String getPlayer(int playerIndex) {
+        if (playerIndex == 0) {
+            return player1;
+        } else if (playerIndex == 1) {
+            return player2;
+        } else {
+            return null;//TODO exception
+        }
+    }
+
+    private int getCompetitorPlayerIndex(int playerIndex) {
+        return 1 - playerIndex;
+    }
+
+    private void changeTurn() {
+        if (currentTurn.equals(player1)) {
+            currentTurn = player2;
+        } else if (currentTurn.equals(player2)) {
+            currentTurn = player1;
+        }
     }
 }
