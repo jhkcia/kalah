@@ -1,17 +1,21 @@
 package com.jhkcia.kalah.model;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.jhkcia.kalah.excaption.BoardIsFullException;
+import org.springframework.util.StringUtils;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Board {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private long id;
     private String player1;
     private String player2;
+    private String currentTurn;
     private String winner;
     private GameStatus status;
     @ElementCollection
@@ -30,6 +34,15 @@ public class Board {
 
     public Board() {
 
+    }
+
+    public void joinBoard(String player) {
+        if (StringUtils.hasText(this.player2)) {
+            throw new BoardIsFullException(this.getId());
+        }
+        this.player2 = player;
+        this.currentTurn = this.player1;
+        this.status = GameStatus.Playing;
     }
 
     public Pit getPitByIndex(int index) {
@@ -60,16 +73,16 @@ public class Board {
         return winner;
     }
 
-    public void setWinner(String winner) {
-        this.winner = winner;
-    }
-
     public GameStatus getStatus() {
         return status;
     }
 
-    public void setStatus(GameStatus status) {
-        this.status = status;
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getCurrentTurn() {
+        return currentTurn;
     }
 
 }
