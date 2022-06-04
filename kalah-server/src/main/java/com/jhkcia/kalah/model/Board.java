@@ -36,7 +36,7 @@ public class Board {
 
     }
 
-    public void joinBoard(String player) {
+    public void join(String player) {
         if (StringUtils.hasText(this.player2)) {
             throw new BoardIsFullException(this.getId());
         }

@@ -31,7 +31,7 @@ public class BoardTest {
     public void testJoinBoard() {
         Board board = new Board("user1");
 
-        board.joinBoard("user2");
+        board.join("user2");
 
         assertEquals("user1", board.getPlayer1());
         assertEquals("user1", board.getCurrentTurn());
@@ -56,7 +56,7 @@ public class BoardTest {
         board.setPlayer1("user1");
         board.setPlayer2("user2");
 
-        Exception exception = Assert.assertThrows(BoardIsFullException.class, () -> board.joinBoard("user3"));
+        Exception exception = Assert.assertThrows(BoardIsFullException.class, () -> board.join("user3"));
 
         Assert.assertEquals("Could not join board 1, Board is full.", exception.getMessage());
     }
