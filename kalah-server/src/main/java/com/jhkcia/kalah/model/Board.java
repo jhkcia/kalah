@@ -85,4 +85,7 @@ public class Board {
         return currentTurn;
     }
 
+    public void sowSeeds(String player, int pitIndex) {
+
+    }
 }

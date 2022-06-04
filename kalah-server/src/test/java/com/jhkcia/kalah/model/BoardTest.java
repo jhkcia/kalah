@@ -1,6 +1,7 @@
 package com.jhkcia.kalah.model;
 
 import com.jhkcia.kalah.excaption.BoardIsFullException;
+import com.jhkcia.kalah.excaption.InvalidSowException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -60,4 +61,101 @@ public class BoardTest {
 
         Assert.assertEquals("Could not join board 1, Board is full.", exception.getMessage());
     }
+
+    @Test
+    public void testShouldNotSowNotStartedBoard() {
+        Board board = new Board("user1");
+
+        Exception exception = Assert.assertThrows(InvalidSowException.class, () -> board.sowSeeds("user1", 1));
+
+        Assert.assertEquals("Game is not started yet.", exception.getMessage());
+    }
+
+    @Test
+    public void testShouldNotSowInvalidTurn() {
+        Board board = new Board("user1");
+        board.join("user2");
+
+        Exception exception = Assert.assertThrows(InvalidSowException.class, () -> board.sowSeeds("user2", 1));
+
+        Assert.assertEquals("It is not your turn.", exception.getMessage());
+    }
+
+    @Test
+    public void testShouldNotSowOtherSidePit() {
+        Board board = new Board("user1");
+        board.join("user2");
+
+        Exception exception = Assert.assertThrows(InvalidSowException.class, () -> board.sowSeeds("user1", 9));
+
+        Assert.assertEquals("You can only sow your pits.", exception.getMessage());
+    }
+
+    @Test
+    public void testShouldNotSowStorePit() {
+        Board board = new Board("user1");
+        board.join("user2");
+
+        Exception exception = Assert.assertThrows(InvalidSowException.class, () -> board.sowSeeds("user1", 6));
+
+        Assert.assertEquals("Can not sow store pit.", exception.getMessage());
+    }
+
+    @Test
+    public void testShouldNotSowEmptyPit() {
+        Board board = new Board("user1");
+        board.join("user2");
+        BoardTestUtils.setPits(board, new int[]{0, 4, 0, 5, 5, 5, 1, 4, 4, 4, 4, 4, 4, 0});
+
+        Exception exception = Assert.assertThrows(InvalidSowException.class, () -> board.sowSeeds("user1", 2));
+
+        Assert.assertEquals("Can not sow empty pit.", exception.getMessage());
+    }
+
+    @Test
+    public void testShouldNotSowFinishedGame() {
+        Board board = new Board("user1");
+        board.join("user2");
+        BoardTestUtils.setStatus(board, GameStatus.Finished);
+        Exception exception = Assert.assertThrows(InvalidSowException.class, () -> board.sowSeeds("user1", 6));
+
+        Assert.assertEquals("Can not sow pit on finished game.", exception.getMessage());
+    }
+
+    @Test
+    public void testShouldCanStoreStoneOnOwnStore() {
+
+    }
+
+    @Test
+    public void testShouldNotStoreStoneOnOpponentsStore() {
+
+    }
+
+    @Test
+    public void testShouldCaptureOpponentsStonesWhenLastSeedLandInOwnEmptyHouse() {
+
+    }
+
+    @Test
+    public void testShouldGetAdditionalMoveWhenLastSeedLandInPlayerStore() {
+
+    }
+
+    @Test
+    public void testEndGameWhenThereIsNoSeed() {
+
+    }
+
+    @Test
+    public void testEndGameInDraw() {
+
+    }
+
+    @Test
+    public void testSowPit() {
+        Board board = new Board("user1");
+        board.join("user2");
+    }
+
 }
