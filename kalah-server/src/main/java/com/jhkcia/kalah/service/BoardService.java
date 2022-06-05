@@ -12,4 +12,7 @@ public interface BoardService {
     List<Board> getUserBoards(String username);
 
     Board joinBoard(String username, long boardId);
+
+    Board sowSeeds(String username, long boardId, int pitIndex);
+
 }

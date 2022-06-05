@@ -14,6 +14,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
+import static com.jhkcia.kalah.model.BoardTestUtils.assertPitsEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
@@ -114,6 +118,26 @@ public class BoardServiceTest {
     @Test
     public void testJoinNotExistBoard() {
         Exception exception = Assert.assertThrows(BoardNotFoundException.class, () -> boardService.joinBoard("user3", -1));
+
+        Assert.assertEquals("Board Not Found.", exception.getMessage());
+    }
+
+    @Test
+    public void testSowSeeds() {
+        Board board = boardService.newBoard("user1");
+        board = boardService.joinBoard("user2", board.getId());
+
+        board = boardService.sowSeeds("user1", board.getId(), 0);
+
+        assertPitsEquals(new int[]{0, 5, 5, 5, 5, 4, 0, 4, 4, 4, 4, 4, 4, 0}, board);
+        assertEquals("user2", board.getCurrentTurn());
+        assertEquals(GameStatus.Playing, board.getStatus());
+        assertNull(board.getWinner());
+    }
+
+    @Test
+    public void testSowSeedsOfNotExistBoard() {
+        Exception exception = Assert.assertThrows(BoardNotFoundException.class, () -> boardService.sowSeeds("user3", -1, 2));
 
         Assert.assertEquals("Board Not Found.", exception.getMessage());
     }

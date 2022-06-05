@@ -39,4 +39,12 @@ public class BoardServiceImpl implements BoardService {
             return boardRepository.save(board);
         })).orElseThrow(BoardNotFoundException::new);
     }
+
+    @Override
+    public Board sowSeeds(String username, long boardId, int pitIndex) {
+        return boardRepository.findById(boardId).map((board -> {
+            board.sowSeeds(username, pitIndex);
+            return boardRepository.save(board);
+        })).orElseThrow(BoardNotFoundException::new);
+    }
 }

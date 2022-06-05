@@ -23,7 +23,7 @@ public class Board {
     @ElementCollection
     private List<Pit> pits;
 
-    private static Integer PITS_COUNT = 14;
+    public static Integer PITS_COUNT = 14;
 
     public Board(String player1) {
         this.player1 = player1;

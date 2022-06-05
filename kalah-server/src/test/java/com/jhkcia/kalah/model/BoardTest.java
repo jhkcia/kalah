@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static com.jhkcia.kalah.model.BoardTestUtils.assertPitsEquals;
 
 public class BoardTest {
     @Test
@@ -242,11 +243,4 @@ public class BoardTest {
     }
 
     //TODO test combination of rules!
-
-    private void assertPitsEquals(int[] expectedPits, Board board) {
-        for (int i = 0; i < expectedPits.length; i++) {
-            assertEquals(String.format("Stones on pit %d are not equal.", i), expectedPits[i], board.getPitByIndex(i).getStones());
-        }
-    }
-
 }

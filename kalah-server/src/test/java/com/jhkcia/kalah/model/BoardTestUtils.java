@@ -5,6 +5,8 @@ import org.springframework.test.util.ReflectionTestUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
 public class BoardTestUtils {
     public static Board setPits(Board board, int[] pitStoneCount) {
         List<Pit> pits = new ArrayList<>();
@@ -23,4 +25,17 @@ public class BoardTestUtils {
 
         return board;
     }
+
+    public static Board setFieldValue(Board board, String fieldName, Object value) {
+        ReflectionTestUtils.setField(board, fieldName, value);
+
+        return board;
+    }
+
+    public static void assertPitsEquals(int[] expectedPits, Board board) {
+        for (int i = 0; i < expectedPits.length; i++) {
+            assertEquals(String.format("Stones on pit %d are not equal.", i), expectedPits[i], board.getPitByIndex(i).getStones());
+        }
+    }
+
 }
