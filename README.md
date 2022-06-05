@@ -11,15 +11,16 @@ Followings are the directories of this project:
 - `kalah-server` is the backend of the application, main technology stack for this project are:
     * [Spring Boot](https://projects.spring.io/spring-boot/) - The framework used
     * [Maven](https://maven.apache.org) - Dependency management
-    * [H2 Database](https://www.h2database.com/) - Used for database.
+    * [H2 Database](https://www.h2database.com/) - Used for database
     * [JUnit](https://junit.org) - Test framework
     * [Swagger](https://swagger.io) - Used to generate API docs
 
 
 - `kalah-ui` is the frontend of the application, main technology stack for this project are:
     * [React](https://reactjs.org/) library for building ui
+    * [TypeScript](https://www.typescriptlang.org/) Used typed syntax
     * [Axios](https://axios-http.com/) http client for communicating with backend
-    * []
-
+    * [Cypress](https://www.cypress.io/) end to end testing
+    * [styled-components](https://styled-components.com/) used for CSS-in-JS styling
 ## kalah game
 You can find the rules of the game on Wikipedia: https://en.wikipedia.org/wiki/Kalah.
