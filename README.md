@@ -20,6 +20,7 @@ Followings are the directories of this project:
     * [React](https://reactjs.org/) library for building ui
     * [TypeScript](https://www.typescriptlang.org/) Used typed syntax
     * [Axios](https://axios-http.com/) http client for communicating with backend
+    * [Cypress](https://www.cypress.io/) end to end testing
 
 ## kalah game
 You can find the rules of the game on Wikipedia: https://en.wikipedia.org/wiki/Kalah.
