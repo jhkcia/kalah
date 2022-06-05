@@ -21,6 +21,6 @@ Followings are the directories of this project:
     * [TypeScript](https://www.typescriptlang.org/) Used typed syntax
     * [Axios](https://axios-http.com/) http client for communicating with backend
     * [Cypress](https://www.cypress.io/) end to end testing
-
+    * [styled-components](https://styled-components.com/) used for CSS-in-JS styling
 ## kalah game
 You can find the rules of the game on Wikipedia: https://en.wikipedia.org/wiki/Kalah.
