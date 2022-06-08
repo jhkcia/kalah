@@ -3,11 +3,15 @@ package com.jhkcia.kalah.model;
 import com.jhkcia.kalah.excaption.BoardIsFullException;
 import com.jhkcia.kalah.excaption.InvalidPitException;
 import com.jhkcia.kalah.excaption.InvalidSowException;
+import com.jhkcia.kalah.model.rules.AdditionalMoveRule;
+import com.jhkcia.kalah.model.rules.EmptyHouseLandingRule;
+import com.jhkcia.kalah.model.rules.NoSeedRemainingRule;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class Board {
@@ -22,6 +26,8 @@ public class Board {
     private GameStatus status;
     @ElementCollection
     private List<Pit> pits;
+
+    private static List<GameRule> rules;
 
     public static Integer PITS_COUNT = 14;
 
@@ -100,6 +106,32 @@ public class Board {
 
     }
 
+    private SowAction move(String user, Pit selectedPit, int playerIndex) { //todo change to player
+        int nextIndex = selectedPit.getId();
+        while (!selectedPit.isEmpty()) {
+            nextIndex = ++nextIndex % PITS_COUNT;
+            Pit nextPit = getPitByIndex(nextIndex);
+            if (nextPit.isStore() && !nextPit.belongsToPlayer(playerIndex)) {
+                continue;
+            }
+            selectedPit.removeStone();
+            nextPit.addStone();
+        }
+        Pit lastPit = getPitByIndex(nextIndex);
+
+        return new SowAction(user, selectedPit, lastPit, playerIndex);
+    }
+
+    private static List<GameRule> getRules() {
+        if (rules == null) {
+            rules = new ArrayList<>();
+            rules.add(new EmptyHouseLandingRule());
+            rules.add(new AdditionalMoveRule());
+            rules.add(new NoSeedRemainingRule());
+        }
+        return rules;
+    }
+
     public void sowSeeds(String player, int pitIndex) {
         if (status != GameStatus.Playing) {
             throw new InvalidSowException("Can not sow pit while game is not playing.");
@@ -119,57 +151,32 @@ public class Board {
             throw new InvalidSowException("You can only sow your pits.");
         }
 
-        int nextIndex = pitIndex;
-        while (!pit.isEmpty()) {
-            nextIndex = ++nextIndex % PITS_COUNT;
-            Pit nextPit = getPitByIndex(nextIndex);
-            if (nextPit.isStore() && !nextPit.belongsToPlayer(playerIndex)) {
-                continue;
-            }
-            pit.removeStone();
-            nextPit.addStone();
-        }
-        Pit lastPit = getPitByIndex(nextIndex);
-        if (!lastPit.isStore() && lastPit.belongsToPlayer(playerIndex) && lastPit.getStones() == 1) {
-            Pit oppositePit = getPitByIndex(lastPit.getOppositePitIndex());
-            if (!oppositePit.isEmpty()) {
-                getPitByIndex(Pit.getStoreIndex(playerIndex)).addStones(oppositePit.getStones() + 1);
-                oppositePit.removeAllStones();
-                lastPit.removeAllStones();
-            }
+        SowAction moveResult = move(player, pit, playerIndex);
+        this.changeTurn();
 
+        for (GameRule rule : getRules()) {
+            rule.apply(this, moveResult);
         }
 
-        boolean hasSeeds = false;
+        checkGameFinished();
+    }
 
-        for (int index : Pit.getStoreIndexes(playerIndex)) {
-            if (!getPitByIndex(index).isEmpty()) {
-                hasSeeds = true;
-                break;
-            }
-        }
-        if (!hasSeeds) {
-            int competitorPlayerIndex = getCompetitorPlayerIndex(playerIndex);
-            for (int index : Pit.getStoreIndexes(competitorPlayerIndex)) {
-                Pit currentPit = getPitByIndex(index);
-                if (!currentPit.isEmpty()) {
-                    getPitByIndex(Pit.getStoreIndex(competitorPlayerIndex)).addStones(currentPit.getStones());
-                    currentPit.removeAllStones();
-                }
-            }
-            int playerScore = getPitByIndex(Pit.getStoreIndex(playerIndex)).getStones();
-            int competitorScore = getPitByIndex(Pit.getStoreIndex(competitorPlayerIndex)).getStones();
-            if (playerScore > competitorScore) {
-                this.winner = currentTurn;
-            } else if (playerScore < competitorScore) {
-                this.winner = getPlayer(competitorPlayerIndex);
+
+    private void checkGameFinished() {
+        boolean isFinished = getPlayerHouses(0).stream().allMatch(p -> p.isEmpty())
+                && getPlayerHouses(1).stream().allMatch(p -> p.isEmpty());
+        if (isFinished) {
+            int p1Score = getStorePit(0).getStones();
+            int p2Score = getStorePit(1).getStones();
+            if (p1Score > p2Score) {
+                this.winner = player1;
+            } else if (p1Score < p2Score) {
+                this.winner = player2;
+            } else {
+                this.winner = null;
             }
             this.currentTurn = null;
             this.status = GameStatus.Finished;
-        } else {
-            if (!(lastPit.isStore() && lastPit.belongsToPlayer(playerIndex))) {
-                this.changeTurn();
-            }
         }
     }
 
@@ -183,7 +190,7 @@ public class Board {
         }
     }
 
-    private int getCompetitorPlayerIndex(int playerIndex) {
+    public int getCompetitorPlayerIndex(int playerIndex) {
         return 1 - playerIndex;
     }
 
@@ -193,5 +200,25 @@ public class Board {
         } else if (currentTurn.equals(player2)) {
             currentTurn = player1;
         }
+    }
+
+    public Pit getOppositePit(Pit lastPit) {
+        //tODo fix me
+        return getPitByIndex(lastPit.getOppositePitIndex());
+    }
+
+    public Pit getStorePit(int playerIndex) {
+        //tODo fix me
+
+        return getPitByIndex(Pit.getStoreIndex(playerIndex));
+
+    }
+
+    public void setCurrentTurn(String currentTurn) {
+        this.currentTurn = currentTurn;
+    }
+
+    public List<Pit> getPlayerHouses(int playerIndex) {
+        return pits.stream().filter(p -> p.belongsToPlayer(playerIndex) && p.isHouse()).collect(Collectors.toList());
     }
 }
