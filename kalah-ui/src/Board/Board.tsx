@@ -11,8 +11,6 @@ const RootWrapper = styled.div`
     display: flex;
     flex-direction: column;
     padding: 10px;
-    background-color: #a64200;
-    background-image: url("/wood-pattern.png");
     border-radius: 10px;
     `
 const Message = styled.div`

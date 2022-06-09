@@ -3,13 +3,21 @@ import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
 import { BoardPage } from './Board/BoardPage';
 import { AvailableBoardsPage } from './BoardTable/AvailableBoardsPage';
 import { UserBoardPages } from './BoardTable/UerBoardsPage';
-
+import './App.css'
+import styled from 'styled-components';
 function App() {
+
+  const UserText = styled.div`
+  color: #ffffff;
+  `;
 
   return (
     <Router>
       <div className="App">
-        You are logged in as Jalal
+
+        <UserText>
+          You are logged in as Jalal
+        </UserText>
         <ul className="App-header">
           <li>
             <Link to="/">Login</Link>
