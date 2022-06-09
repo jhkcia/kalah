@@ -7,7 +7,7 @@ import com.jhkcia.kalah.model.SowAction;
 public class AdditionalMoveRule implements GameRule {
     @Override
     public void apply(Board board, SowAction sowAction) {
-        if (sowAction.getLastPit().isStore() && sowAction.getLastPit().belongsToPlayer(sowAction.getUserId())) {
+        if (board.isStore(sowAction.getLastPit()) && board.belongsToPlayer(sowAction.getLastPit(), sowAction.getUserId())) {
             board.setCurrentTurn(sowAction.getUser());
         }
     }

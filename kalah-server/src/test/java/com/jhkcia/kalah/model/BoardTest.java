@@ -243,4 +243,75 @@ public class BoardTest {
     }
 
     //TODO test combination of rules!
+
+
+    @Test
+    public void testPitType() {
+        Board board = new Board("user1");
+        for (int i = 0; i < 14; i++) {
+            Pit p = new Pit(i);
+            if (i == 6 || i == 13) {
+                Assert.assertTrue(board.isStore(p));
+                Assert.assertFalse(board.isHouse(p));
+            } else {
+                Assert.assertFalse(board.isStore(p));
+                Assert.assertTrue(board.isHouse(p));
+            }
+        }
+    }
+
+    @Test
+    public void testBelongsTo() {
+        Board board = new Board("user1");
+        for (int i = 0; i < 14; i++) {
+            Pit p = new Pit(i);
+            if (i <= 6) {
+                Assert.assertTrue(board.belongsToPlayer(p, 0));
+                Assert.assertFalse(board.belongsToPlayer(p, 1));
+            } else {
+                Assert.assertFalse(board.belongsToPlayer(p, 0));
+                Assert.assertTrue(board.belongsToPlayer(p, 1));
+            }
+        }
+    }
+
+    @Test
+    public void testGetOppositePit() {
+        Board board = new Board("user1");
+        Assert.assertEquals(12, board.getOppositePit(board.getPitByIndex(0)).getId());
+        Assert.assertEquals(11, board.getOppositePit(board.getPitByIndex(1)).getId());
+        Assert.assertEquals(10, board.getOppositePit(board.getPitByIndex(2)).getId());
+        Assert.assertEquals(9, board.getOppositePit(board.getPitByIndex(3)).getId());
+        Assert.assertEquals(8, board.getOppositePit(board.getPitByIndex(4)).getId());
+        Assert.assertEquals(7, board.getOppositePit(board.getPitByIndex(5)).getId());
+        Assert.assertEquals(6, board.getOppositePit(board.getPitByIndex(6)).getId());
+        Assert.assertEquals(5, board.getOppositePit(board.getPitByIndex(7)).getId());
+        Assert.assertEquals(4, board.getOppositePit(board.getPitByIndex(8)).getId());
+        Assert.assertEquals(3, board.getOppositePit(board.getPitByIndex(9)).getId());
+        Assert.assertEquals(2, board.getOppositePit(board.getPitByIndex(10)).getId());
+        Assert.assertEquals(1, board.getOppositePit(board.getPitByIndex(11)).getId());
+        Assert.assertEquals(0, board.getOppositePit(board.getPitByIndex(12)).getId());
+    }
+
+    @Test
+    public void testGetStoreIndex() {
+        Board board = new Board("player1");
+        Assert.assertEquals(6, board.getStoreIndex(0));
+        Assert.assertEquals(13, board.getStoreIndex(1));
+        Assert.assertEquals(-1, board.getStoreIndex(2));
+    }
+
+    @Test
+    public void testInitialStoneCount() {
+        Board b = new Board("player1");
+        for (int i = 0; i < 14; i++) {
+            Pit p = b.getPitByIndex(i);
+            Assert.assertEquals(i, p.getId());
+            if (i == 6 || i == 13) {
+                Assert.assertEquals(0, p.getStones());
+            } else {
+                Assert.assertEquals(4, p.getStones());
+            }
+        }
+    }
 }

@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 @Entity
 public class Board {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
@@ -31,17 +32,36 @@ public class Board {
 
     public static Integer PITS_COUNT = 14;
 
-    public Board(String player1) {
-        this.player1 = player1;
-        this.status = GameStatus.NotStart;
-        this.pits = new ArrayList<>(PITS_COUNT);
-        for (int i = 0; i < PITS_COUNT; i++) {
-            pits.add(new Pit(i));
-        }
+    private static final int INITIAL_STONE_COUNT = 4;
+    private static final int STORE_COUNT = 6;
+
+    private static int getFirstHouseId() {
+        return STORE_COUNT;
+    }
+
+    private static int getSecondHouseId() {
+        return STORE_COUNT * 2 + 1;
     }
 
     public Board() {
 
+    }
+
+    public Board(String player1) {
+        this.player1 = player1;
+        this.status = GameStatus.NotStart;
+        initializePits();
+    }
+
+    private void initializePits() {
+        this.pits = new ArrayList<>(PITS_COUNT);
+        for (int i = 0; i < PITS_COUNT; i++) {
+            Pit pit = new Pit(i);
+            pits.add(pit);
+            if (isHouse(pit)) {
+                pit.setStones(INITIAL_STONE_COUNT);
+            }
+        }
     }
 
     public void join(String player) {
@@ -106,12 +126,12 @@ public class Board {
 
     }
 
-    private SowAction move(String user, Pit selectedPit, int playerIndex) { //todo change to player
+    private SowAction move(String user, Pit selectedPit, int playerIndex) { // todo change to player
         int nextIndex = selectedPit.getId();
         while (!selectedPit.isEmpty()) {
             nextIndex = ++nextIndex % PITS_COUNT;
             Pit nextPit = getPitByIndex(nextIndex);
-            if (nextPit.isStore() && !nextPit.belongsToPlayer(playerIndex)) {
+            if (isStore(nextPit) && !belongsToPlayer(nextPit, playerIndex)) {
                 continue;
             }
             selectedPit.removeStone();
@@ -140,14 +160,14 @@ public class Board {
             throw new InvalidSowException("It is not your turn.");
         }
         Pit pit = getPitByIndex(pitIndex);
-        if (pit.isStore()) {
+        if (isStore(pit)) {
             throw new InvalidSowException("Can not sow store pit.");
         }
         if (pit.isEmpty()) {
             throw new InvalidSowException("Can not sow empty pit.");
         }
         int playerIndex = getCurrentTurnIndex();
-        if (!pit.belongsToPlayer(playerIndex)) {
+        if (!belongsToPlayer(pit, playerIndex)) {
             throw new InvalidSowException("You can only sow your pits.");
         }
 
@@ -160,7 +180,6 @@ public class Board {
 
         checkGameFinished();
     }
-
 
     private void checkGameFinished() {
         boolean isFinished = getPlayerHouses(0).stream().allMatch(p -> p.isEmpty())
@@ -180,16 +199,6 @@ public class Board {
         }
     }
 
-    private String getPlayer(int playerIndex) {
-        if (playerIndex == 0) {
-            return player1;
-        } else if (playerIndex == 1) {
-            return player2;
-        } else {
-            return null;//TODO exception
-        }
-    }
-
     public int getCompetitorPlayerIndex(int playerIndex) {
         return 1 - playerIndex;
     }
@@ -202,16 +211,14 @@ public class Board {
         }
     }
 
-    public Pit getOppositePit(Pit lastPit) {
-        //tODo fix me
-        return getPitByIndex(lastPit.getOppositePitIndex());
+    public Pit getOppositePit(Pit pit) {
+        return getPitByIndex(12 - pit.getId());
     }
 
     public Pit getStorePit(int playerIndex) {
-        //tODo fix me
+        // tODo fix me
 
-        return getPitByIndex(Pit.getStoreIndex(playerIndex));
-
+        return getPitByIndex(getStoreIndex(playerIndex));
     }
 
     public void setCurrentTurn(String currentTurn) {
@@ -219,6 +226,29 @@ public class Board {
     }
 
     public List<Pit> getPlayerHouses(int playerIndex) {
-        return pits.stream().filter(p -> p.belongsToPlayer(playerIndex) && p.isHouse()).collect(Collectors.toList());
+        return pits.stream().filter(p -> belongsToPlayer(p, playerIndex) && isHouse(p)).collect(Collectors.toList());
     }
+
+    public boolean isStore(Pit pit) {
+        return pit.getId() == getFirstHouseId() || pit.getId() == getSecondHouseId();
+    }
+
+    public boolean isHouse(Pit pit) {
+        return !isStore(pit);
+    }
+
+    public boolean belongsToPlayer(Pit pit, int playerIndex) {
+        return (playerIndex == 0 && pit.getId() <= getFirstHouseId() && pit.getId() >= 0) ||
+                (playerIndex == 1 && pit.getId() > getFirstHouseId() && pit.getId() <= getSecondHouseId());
+    }
+
+    public int getStoreIndex(int playerIndex) {
+        if (playerIndex == 0) {
+            return getFirstHouseId();
+        } else if (playerIndex == 1) {
+            return getSecondHouseId();
+        }
+        return -1; // TODO return exception
+    }
+
 }
