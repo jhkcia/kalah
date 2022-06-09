@@ -1,52 +1,36 @@
 import React from 'react';
-import { Board } from './Board/Board';
-import { BoardList } from './BoardTable/BoardList';
+import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
+import { BoardPage } from './Board/BoardPage';
+import { AvailableBoardsPage } from './BoardTable/AvailableBoardsPage';
+import { UserBoardPages } from './BoardTable/UerBoardsPage';
 
 function App() {
 
-
   return (
-    <>
-      <Board item={
-        {
-          id: 1,
-          player1: "Player 1",
-          player2: "Player 2",
-          currentTurn: "Player 2",
-          winner: "",
-          status: "playing",
-          pits: [0, 0, 3, 4, 5, 6, 7, 0, 0, 10, 11, 12, 13, 14]
-        }
-      }
-        player="Player 2"
-      />
-
-      <BoardList items={[
-        {
-          id: 1,
-          player1: "User 1",
-          player2: "User 2",
-          currentTurn: "User 2",
-          winner: "",
-          status: "playing",
-
-        }
-      ]} columns={['id', 'player1']} onSelect={(item) => alert(item.id)} />
-
-
-      <BoardList items={[
-        {
-          id: 1,
-          player1: "User 1",
-          player2: "User 2",
-          currentTurn: "User 2",
-          winner: "",
-          status: "playing",
-        }
-      ]} columns={['id', 'player1', 'player2', 'status', 'currentTurn', 'winner']} onSelect={(item) => alert(item.id)} />
-
-
-    </>
+    <Router>
+      <div className="App">
+        You are logged in as Jalal
+        <ul className="App-header">
+          <li>
+            <Link to="/">Login</Link>
+          </li>
+          <li>
+            <Link to="/my-boards">My Boards</Link>
+          </li>
+          <li>
+            <Link to="/available-boards">Join A board</Link>
+          </li>
+          <li>
+            <Link to="/">Logout</Link>
+          </li>
+        </ul>
+        <Routes>
+          <Route path='/boards/:id' element={< BoardPage />}></Route>
+          <Route path='/my-boards' element={< UserBoardPages />}></Route>
+          <Route path='/available-boards' element={< AvailableBoardsPage />}></Route>
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
