@@ -7,7 +7,7 @@ function Main() {
 
     return (
         <div className="App">
-            <ResponsiveHeader title='ONLINE KALAH GAME' titleLink='/' items={[{
+            <ResponsiveHeader title='KALAH' titleLink='/' items={[{
                 title: 'Login',
                 link: '/login',
             }]}></ResponsiveHeader>
