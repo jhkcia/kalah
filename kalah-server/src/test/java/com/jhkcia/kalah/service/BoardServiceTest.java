@@ -141,4 +141,18 @@ public class BoardServiceTest {
 
         Assert.assertEquals("Board Not Found.", exception.getMessage());
     }
+
+    @Test
+    public void testGetBoardBoard() {
+        Board sampleBoard = boardService.newBoard("user1");
+
+        Board board = boardService.getBoard(sampleBoard.getId());
+        
+        Assert.assertNotNull(board);
+        Assert.assertEquals(sampleBoard.getId(), board.getId());
+        Assert.assertEquals("user1", board.getPlayer1());
+        Assert.assertNull(board.getPlayer2());
+        Assert.assertNull(board.getWinner());
+        Assert.assertEquals(GameStatus.NotStart, board.getStatus());
+    }
 }
