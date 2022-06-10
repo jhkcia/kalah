@@ -15,4 +15,6 @@ public interface BoardService {
 
     Board sowSeeds(String username, long boardId, int pitIndex);
 
+    Board getBoard(long boardId);
+
 }
