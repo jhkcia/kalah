@@ -5,10 +5,8 @@ import { BoardPage } from '../Board/BoardPage';
 import { AvailableBoardsPage } from '../BoardTable/AvailableBoardsPage';
 import { UserBoardPages } from '../BoardTable/UerBoardsPage';
 import { UserContext } from '../context/UserContext';
+import { ResponsiveHeader } from '../header/ResponsiveHeader';
 
-const UserText = styled.div`
-color: #ffffff;
-`;
 const Wrapper = styled.div`
 
 `;
@@ -21,20 +19,20 @@ function Main() {
     };
     return (
         <Wrapper>
-            <UserText>
-                Welcome {user}
-            </UserText>
-            <ul className="App-header">
-                <li>
-                    <Link to="/my-boards">My Boards</Link>
-                </li>
-                <li>
-                    <Link to="/available-boards">Join A board</Link>
-                </li>
-                <li>
-                    <Link to="/" onClick={handleLogout}>Logout</Link>
-                </li>
-            </ul>
+            <ResponsiveHeader title={`Welcome ${user}`} items={[{
+                title: 'My Boards',
+                link: '/my-boards',
+            },
+            {
+                title: 'Available Boards',
+                link: '/available-boards',
+            },
+            {
+                title: 'Logout',
+                link: '/',
+                onClick: handleLogout,
+            }]}></ResponsiveHeader>
+
             <Routes>
                 <Route path='/boards/:id' element={< BoardPage />}></Route>
                 <Route path='/my-boards' element={< UserBoardPages />}></Route>
