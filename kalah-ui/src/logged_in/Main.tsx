@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
+import { StompSessionProvider } from 'react-stomp-hooks';
 import styled from 'styled-components';
 import { BoardPage } from '../Board/BoardPage';
 import { AvailableBoardsPage } from '../BoardTable/AvailableBoardsPage';
@@ -33,11 +34,15 @@ function Main() {
                 onClick: handleLogout,
             }]}></ResponsiveHeader>
 
-            <Routes>
-                <Route path='/boards/:id' element={< BoardPage />}></Route>
-                <Route path='/my-boards' element={< UserBoardPages />}></Route>
-                <Route path='/available-boards' element={< AvailableBoardsPage />}></Route>
-            </Routes>
+            <StompSessionProvider
+                url={`ws://${window.location.host}/api/notifications`}
+            >
+                <Routes>
+                    <Route path='/boards/:id' element={< BoardPage />}></Route>
+                    <Route path='/my-boards' element={< UserBoardPages />}></Route>
+                    <Route path='/available-boards' element={< AvailableBoardsPage />}></Route>
+                </Routes>
+            </StompSessionProvider>
         </Wrapper>
     );
 }
