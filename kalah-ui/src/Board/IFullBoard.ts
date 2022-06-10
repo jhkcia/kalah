@@ -1,4 +1,4 @@
-export interface IBoard {
+export interface IFullBoard {
     id: number;
     player1: string;
     player2?: string | null;

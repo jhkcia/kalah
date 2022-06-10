@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { IBoard } from './IBoard';
+import { IFullBoard } from './IFullBoard';
 import { Pit } from './Pit';
 
 type BoardCardProps = {
-    item: IBoard,
+    item: IFullBoard,
     player: string;
 }
 
