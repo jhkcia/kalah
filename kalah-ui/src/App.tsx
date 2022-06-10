@@ -1,44 +1,22 @@
-import React from 'react';
-import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
-import { BoardPage } from './Board/BoardPage';
-import { AvailableBoardsPage } from './BoardTable/AvailableBoardsPage';
-import { UserBoardPages } from './BoardTable/UerBoardsPage';
-import './App.css'
-import styled from 'styled-components';
+import React, { Fragment, lazy, Suspense } from 'react';
+import { BrowserRouter, Router } from 'react-router-dom';
+import './App.css';
+import { UserContext } from './context/UserContext';
 function App() {
 
-  const UserText = styled.div`
-  color: #ffffff;
-  `;
+  const LoggedInComponent = lazy(() => import("./logged_in/Main"));
+  const LoggedOutComponent = lazy(() => import("./logged_out/Main"));
+  const { user } = React.useContext(UserContext);
 
   return (
-    <Router>
-      <div className="App">
+    <div className="App">
+      <BrowserRouter>
+        <Suspense fallback={<Fragment />}>
+          {user ? <LoggedInComponent /> : <LoggedOutComponent />}
+        </Suspense>
+      </BrowserRouter>
 
-        <UserText>
-          You are logged in as Jalal
-        </UserText>
-        <ul className="App-header">
-          <li>
-            <Link to="/">Login</Link>
-          </li>
-          <li>
-            <Link to="/my-boards">My Boards</Link>
-          </li>
-          <li>
-            <Link to="/available-boards">Join A board</Link>
-          </li>
-          <li>
-            <Link to="/">Logout</Link>
-          </li>
-        </ul>
-        <Routes>
-          <Route path='/boards/:id' element={< BoardPage />}></Route>
-          <Route path='/my-boards' element={< UserBoardPages />}></Route>
-          <Route path='/available-boards' element={< AvailableBoardsPage />}></Route>
-        </Routes>
-      </div>
-    </Router>
+    </div>
   );
 }
 
