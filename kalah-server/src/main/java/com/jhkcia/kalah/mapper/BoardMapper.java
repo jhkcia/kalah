@@ -5,7 +5,6 @@ import com.jhkcia.kalah.dto.BoardListDto;
 import com.jhkcia.kalah.model.Board;
 
 public class BoardMapper {
-    //TODO can replace with ModelMapper
 
     public static BoardDto convertToDto(Board board) {
         int[] pits = new int[Board.PITS_COUNT];

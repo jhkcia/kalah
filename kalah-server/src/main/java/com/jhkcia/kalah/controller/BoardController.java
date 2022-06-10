@@ -69,7 +69,6 @@ public class BoardController {
     @GetMapping("/{boardId}")
     public BoardDto getBoard(@RequestHeader("username") String username, @PathVariable("boardId") Long boardId) {
         validateUsername(username);
-        //TODO access check just player1 and 2 can see a board!
         return BoardMapper.convertToDto(boardService.getBoard(boardId));
     }
 }
