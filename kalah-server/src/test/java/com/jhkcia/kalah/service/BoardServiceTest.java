@@ -4,11 +4,14 @@ import com.jhkcia.kalah.excaption.BoardNotFoundException;
 import com.jhkcia.kalah.model.Board;
 import com.jhkcia.kalah.model.GameStatus;
 import com.jhkcia.kalah.repository.BoardRepository;
+import com.jhkcia.kalah.service.external.BoardNotificationSender;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -17,6 +20,10 @@ import java.util.List;
 import static com.jhkcia.kalah.model.BoardTestUtils.assertPitsEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -25,6 +32,10 @@ import static org.junit.Assert.assertNull;
 public class BoardServiceTest {
     @Autowired
     private BoardService boardService;
+
+    @MockBean
+    BoardNotificationSender notificationSender;
+
     @Autowired
     private BoardRepository boardRepository;
 
@@ -38,6 +49,8 @@ public class BoardServiceTest {
         Assert.assertNull(board.getPlayer2());
         Assert.assertNull(board.getWinner());
         Assert.assertEquals(GameStatus.NotStart, board.getStatus());
+
+        Mockito.verify(notificationSender, never()).notifyUpdate(anyLong(), any());
     }
 
     @Test
@@ -113,6 +126,9 @@ public class BoardServiceTest {
         Assert.assertEquals("user1", newBoard.getCurrentTurn());
         Assert.assertEquals("user1", newBoard.getPlayer1());
         Assert.assertEquals("user2", newBoard.getPlayer2());
+
+        Mockito.verify(notificationSender, times(1)).notifyUpdate(board.getId(), "JOINED");
+
     }
 
     @Test
@@ -133,6 +149,9 @@ public class BoardServiceTest {
         assertEquals("user2", board.getCurrentTurn());
         assertEquals(GameStatus.Playing, board.getStatus());
         assertNull(board.getWinner());
+
+        Mockito.verify(notificationSender, times(1)).notifyUpdate(board.getId(), "SOW_SEEDS");
+
     }
 
     @Test
@@ -140,5 +159,25 @@ public class BoardServiceTest {
         Exception exception = Assert.assertThrows(BoardNotFoundException.class, () -> boardService.sowSeeds("user3", -1, 2));
 
         Assert.assertEquals("Board Not Found.", exception.getMessage());
+
+        Mockito.verify(notificationSender, never()).notifyUpdate(anyLong(), any());
+
+    }
+
+    @Test
+    public void testGetBoard() {
+        Board sampleBoard = boardService.newBoard("user1");
+
+        Board board = boardService.getBoard(sampleBoard.getId());
+        
+        Assert.assertNotNull(board);
+        Assert.assertEquals(sampleBoard.getId(), board.getId());
+        Assert.assertEquals("user1", board.getPlayer1());
+        Assert.assertNull(board.getPlayer2());
+        Assert.assertNull(board.getWinner());
+        Assert.assertEquals(GameStatus.NotStart, board.getStatus());
+
+        Mockito.verify(notificationSender, never()).notifyUpdate(anyLong(), any());
+
     }
 }
