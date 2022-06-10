@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { UserContext } from "../context/UserContext";
-import { UserContextType } from "../context/UserContextType";
 
 const Wrapper = styled.section`
     display: flex;
@@ -12,43 +12,35 @@ const Wrapper = styled.section`
 `;
 
 const Form = styled.form`
-    margin: 0 auto;
     width: 100%;
     max-width: 414px;
     padding: 1.3rem;
     display: flex;
     flex-direction: column;
-    position: relative;
 `;
 const Input = styled.input`
     max-width: 100%;
     padding: 11px 13px;
-    background: #f9f9fa;
-    color: #f03d4e;
     margin-bottom: 0.9rem;
     border-radius: 4px;
     outline: 0;
-    border: 1px solid rgba(245, 245, 245, 0.7);
-    font-size: 14px;
+    border: 1px solid rgba(10, 10, 10, 0.7);
+    font-size: 20px;
 `;
 
 const Button = styled.button`
     max-width: 100%;
     padding: 11px 13px;
-    color: rgb(253, 249, 243);
-    font-weight: 600;
-    background: #f03d4e;
+    background-color: #91bded;
+    font-size: 20px;    
     border: none;
     border-radius: 3px;
-    outline: 0;
     cursor: pointer;
-    margin-top: 0.6rem;
 `;
 const Title = styled.h2`
     font-weight: normal;
-    color: #2a2a29;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.1);
     text-align: center;
+    margin-bottom: 1rem;
 `;
 
 
@@ -57,10 +49,12 @@ export function LoginPage(): JSX.Element {
 
     const { login } = React.useContext(UserContext);
 
+    const navigate = useNavigate();
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
         login(username);
+        navigate("/my-boards");
     };
 
     const handleUsernameChange = (e: any) => {
@@ -77,7 +71,7 @@ export function LoginPage(): JSX.Element {
                         value={username}
                         onChange={handleUsernameChange}
                     />
-                    <Button>Login</Button>
+                    <Button disabled={username === ''}>Login</Button>
                 </Form>
             </Wrapper>
         </>
