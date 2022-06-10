@@ -8,6 +8,7 @@ type BoardListProps = {
 }
 
 const StyledTable = styled.table`
+    width: 100%;
     border: none;
     border-collapse: collapse;
     td {
@@ -36,6 +37,7 @@ const StyledTable = styled.table`
     }
     td {
         padding: 15px;
+        text-align: center;
     }
 `;
 const StyledHead = styled.thead``;
