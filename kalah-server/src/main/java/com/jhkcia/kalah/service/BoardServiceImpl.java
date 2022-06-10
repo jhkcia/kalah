@@ -47,4 +47,9 @@ public class BoardServiceImpl implements BoardService {
             return boardRepository.save(board);
         })).orElseThrow(BoardNotFoundException::new);
     }
+
+    @Override
+    public Board getBoard(long boardId) {
+        return boardRepository.findById(boardId).orElseThrow(BoardNotFoundException::new);
+    }
 }

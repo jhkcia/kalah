@@ -134,4 +134,18 @@ public class BoardControllerTest {
         result.andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(4));
     }
+
+    @Test
+    public void testGetBoard() throws Exception {
+        Board sampleBoard = new Board("test");
+        BoardTestUtils.setFieldValue(sampleBoard, "id", 4);
+        when(boardService.getBoard( 4)).thenReturn(sampleBoard);
+
+        ResultActions result = mockMvc.perform(get("/api/board/4")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("username", "user"));
+
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(4));
+    }
 }
