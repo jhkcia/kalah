@@ -29,7 +29,7 @@ export function ResponsiveHeader({ title, titleLink, items }: IResponsiveHeaderP
 
                     {
                         items && items.map((item, index) => {
-                            return (<li className="topnav__item">
+                            return (<li className="topnav__item" key={index}>
                                 {
                                     item.link ?
                                         <Link to={item.link} className="topnav__link" onClick={item.onClick}>{item.title} </Link>
