@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useSubscription } from "react-stomp-hooks";
 import styled from "styled-components";
 import BoardApi from "../api/BoardApi";
 import { UserContext } from "../context/UserContext";
@@ -19,6 +20,12 @@ export function BoardPage(): JSX.Element {
 
     const { id } = useParams();
 
+    useSubscription(`/topic/boards/${id}/get`, (message) => {
+        BoardApi.getInstance().get(Number(id)).then(result => {
+            setBoard(result.data);
+        });
+    });
+
     const [board, setBoard] = useState<IFullBoard>();
     const { user } = React.useContext(UserContext);
 
@@ -29,9 +36,11 @@ export function BoardPage(): JSX.Element {
     }, [id]);
 
     const handleSow = (pit: IPit) => {
-        BoardApi.getInstance().sowSeeds(Number(id), pit.id).then(result => {
-            setBoard(result.data);
-        });
+        if (pit.active) {
+            BoardApi.getInstance().sowSeeds(Number(id), pit.id).then(result => {
+                setBoard(result.data);
+            });
+        }
     }
 
     return (

@@ -3,6 +3,8 @@ package com.jhkcia.kalah.service;
 import com.jhkcia.kalah.excaption.BoardNotFoundException;
 import com.jhkcia.kalah.model.Board;
 import com.jhkcia.kalah.repository.BoardRepository;
+import com.jhkcia.kalah.service.external.BoardNotificationSender;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,9 +12,11 @@ import java.util.List;
 @Service
 public class BoardServiceImpl implements BoardService {
     private final BoardRepository boardRepository;
+    private final BoardNotificationSender boardNotificationSender;
 
-    public BoardServiceImpl(BoardRepository boardRepository) {
+    public BoardServiceImpl(BoardRepository boardRepository, BoardNotificationSender boardNotificationSender) {
         this.boardRepository = boardRepository;
+        this.boardNotificationSender = boardNotificationSender;
     }
 
     @Override
@@ -34,18 +38,25 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public Board joinBoard(String username, long boardId) {
-        return boardRepository.findById(boardId).map((board -> {
+        Board selectedBoard = boardRepository.findById(boardId).map((board -> {
             board.join(username);
             return boardRepository.save(board);
         })).orElseThrow(BoardNotFoundException::new);
+
+        this.boardNotificationSender.notifyUpdate(selectedBoard.getId(), "JOINED");
+
+        return selectedBoard;
     }
 
     @Override
     public Board sowSeeds(String username, long boardId, int pitIndex) {
-        return boardRepository.findById(boardId).map((board -> {
+        Board selectedBoard = boardRepository.findById(boardId).map((board -> {
             board.sowSeeds(username, pitIndex);
             return boardRepository.save(board);
         })).orElseThrow(BoardNotFoundException::new);
+
+        this.boardNotificationSender.notifyUpdate(selectedBoard.getId(), "SOW_SEEDS");
+        return selectedBoard;
     }
 
     @Override
