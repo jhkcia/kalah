@@ -15,7 +15,7 @@ function Main() {
                 </li>
             </ul>
             <Routes>
-                <Route path='/home' element={< HomePage />}></Route>
+                <Route path='/' element={< HomePage />}></Route>
                 <Route path='/login' element={< LoginPage />}></Route>
             </Routes>
         </div>
