@@ -1,0 +1,21 @@
+version: "2.4"
+services:
+      
+  backend:
+    build:
+      dockerfile: Dockerfile
+      context: "./kalah-server"
+
+    environment: 
+      SPRING_H2_CONSOLE_ENABLED: 'false'
+
+  frontend:
+    build:
+      dockerfile: Dockerfile
+      context: "./kalah-ui"
+
+    ports:
+      - "3000:80"
+
+    depends_on: 
+      - backend
