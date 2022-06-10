@@ -1,7 +1,12 @@
-import { useEffect } from "react";
+import React from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import BoardApi from "../api/BoardApi";
+import { UserContext } from "../context/UserContext";
 import { Board } from "./Board";
+import { IFullBoard } from "./IFullBoard";
+import { IPit } from "./IPit";
 
 const Wrapper = styled.div`
     background-color: #a64200;
@@ -14,25 +19,28 @@ export function BoardPage(): JSX.Element {
 
     const { id } = useParams();
 
+    const [board, setBoard] = useState<IFullBoard>();
+    const { user } = React.useContext(UserContext);
+
     useEffect(() => {
-        console.log("fetching board " + id);
+        BoardApi.getInstance().get(Number(id)).then(result => {
+            setBoard(result.data);
+        });
     }, [id]);
+
+    const handleSow = (pit: IPit) => {
+        BoardApi.getInstance().sowSeeds(Number(id), pit.id).then(result => {
+            setBoard(result.data);
+        });
+    }
 
     return (
         <Wrapper>
-            <Board item={
-                {
-                    id: 1,
-                    player1: "Player 1",
-                    player2: "Player 2",
-                    currentTurn: "Player 2",
-                    winner: "",
-                    status: "playing",
-                    pits: [0, 0, 3, 4, 5, 6, 7, 0, 0, 10, 11, 12, 13, 14]
-                }
+            {
+                board && <Board item={board}
+                    player={user ?? "NOT FOUND"}
+                    onSow={handleSow} />
             }
-                player="Player 2"
-            />
         </Wrapper>
     );
 } 

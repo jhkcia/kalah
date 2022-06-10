@@ -45,7 +45,7 @@ describe('<Board />', () => {
                 pits: [0, 0, 3, 4, 5, 6, 7, 0, 0, 10, 11, 12, 13, 14]
             }
 
-            render(<Board item={item} player="Player 1" />);
+            render(<Board item={item} player="Player 1" onSow={() => { }} />);
             expect(mockPit.mock.calls.length).toBe(14);
             checkHousePitParams(0, 0, false, "down-pit-house-0");
             checkHousePitParams(1, 0, false, "down-pit-house-1");
@@ -79,7 +79,7 @@ describe('<Board />', () => {
                 pits: [0, 0, 3, 4, 5, 6, 7, 0, 0, 10, 11, 12, 13, 14]
             }
 
-            render(<Board item={item} player="Player 2" />);
+            render(<Board item={item} player="Player 2" onSow={() => { }} />);
             expect(mockPit.mock.calls.length).toBe(14);
 
             checkHousePitParams(0, 0, false, "up-pit-house-5");
@@ -113,7 +113,7 @@ describe('<Board />', () => {
                 pits: [0, 0, 3, 4, 5, 6, 7, 0, 0, 10, 11, 12, 13, 14]
             }
 
-            render(<Board item={item} player="Player 2" />);
+            render(<Board item={item} player="Player 2" onSow={() => { }} />);
             expect(mockPit.mock.calls.length).toBe(14);
 
             checkHousePitParams(0, 0, false, "up-pit-house-5");
@@ -150,7 +150,7 @@ describe('<Board />', () => {
                 pits: [4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4, 0]
             }
 
-            render(<Board item={item} player="Player 1" />);
+            render(<Board item={item} player="Player 1" onSow={() => { }} />);
             expect(screen.getByTestId('currentTurnText')).toHaveTextContent("Your Turn");
         });
 
@@ -165,7 +165,7 @@ describe('<Board />', () => {
                 pits: [4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4, 0]
             }
 
-            render(<Board item={item} player="Player 2" />);
+            render(<Board item={item} player="Player 2" onSow={() => { }} />);
 
             expect(screen.getByTestId('currentTurnText')).toHaveTextContent("Player 1's Turn");
 
@@ -185,7 +185,7 @@ describe('<Board />', () => {
                 pits: [4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4, 0]
             }
 
-            render(<Board item={item} player="Player 1" />);
+            render(<Board item={item} player="Player 1" onSow={() => { }} />);
             expect(screen.getByTestId('stateText')).toHaveTextContent("Wait for other player to join");
         });
         it('Render Finished game for winner', async () => {
@@ -199,7 +199,7 @@ describe('<Board />', () => {
                 pits: [4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4, 0]
             }
 
-            render(<Board item={item} player="Player 2" />);
+            render(<Board item={item} player="Player 2" onSow={() => { }} />);
             expect(screen.getByTestId('stateText')).toHaveTextContent("You Won!");
         });
 
@@ -214,7 +214,7 @@ describe('<Board />', () => {
                 pits: [4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4, 0]
             }
 
-            render(<Board item={item} player="Player 1" />);
+            render(<Board item={item} player="Player 1" onSow={() => { }} />);
             expect(screen.getByTestId('stateText')).toHaveTextContent("Player 2 Won!");
         });
 
@@ -229,7 +229,7 @@ describe('<Board />', () => {
                 pits: [4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4, 0]
             }
 
-            render(<Board item={item} player="Player 1" />);
+            render(<Board item={item} player="Player 1" onSow={() => { }} />);
             expect(screen.getByTestId('stateText')).toHaveTextContent("Draw!");
         });
     });

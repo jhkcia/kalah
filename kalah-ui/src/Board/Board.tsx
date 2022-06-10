@@ -1,10 +1,12 @@
 import styled from "styled-components";
 import { IFullBoard } from './IFullBoard';
+import { IPit } from "./IPit";
 import { Pit } from './Pit';
 
 type BoardCardProps = {
     item: IFullBoard,
-    player: string;
+    player: string,
+    onSow: (pit: IPit) => void
 }
 
 const RootWrapper = styled.div`
@@ -34,7 +36,7 @@ const BoardFullCell = styled.td.attrs({
 const Text = styled.h1``;
 
 const PIT_COUNT = 6;
-export function Board({ item, player }: BoardCardProps): JSX.Element {
+export function Board({ item, player, onSow }: BoardCardProps): JSX.Element {
 
     const getButtonPits = () => {
         let startIndex = player === item.player1 ? 0 : PIT_COUNT + 1;
@@ -108,7 +110,7 @@ export function Board({ item, player }: BoardCardProps): JSX.Element {
                                 return (
                                     <BoardCell key={`up-pit-house-${index}`}>
                                         <Pit data-testid={`up-pit-house-${index}`}
-                                            item={pit} />
+                                            item={pit} onSelect={onSow} />
                                     </BoardCell>
                                 )
                             })
@@ -123,7 +125,7 @@ export function Board({ item, player }: BoardCardProps): JSX.Element {
                                 return (
                                     <BoardCell key={`down-pit-house-${index}`}>
                                         <Pit data-testid={`down-pit-house-${index}`}
-                                            item={pit} />
+                                            item={pit} onSelect={onSow} />
                                     </BoardCell>
                                 )
                             })

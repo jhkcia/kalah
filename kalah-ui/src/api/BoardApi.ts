@@ -54,6 +54,10 @@ class BoardApi {
         });
     }
 
+    public get(boardId: number) {
+        return this.axiosInstance.get<IFullBoard>(`/api/board/${boardId}`);
+    }
+
 };
 
 export default BoardApi;
