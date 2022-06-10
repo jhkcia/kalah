@@ -242,9 +242,6 @@ public class BoardTest {
         assertNull(board.getWinner());
     }
 
-    //TODO test combination of rules!
-
-
     @Test
     public void testPitType() {
         Board board = new Board("user1");

@@ -157,21 +157,25 @@ Because of time limits, I could not implement all of the features, but there are
 * I read about CQRS and I think it would be a good architecture for this game, By Using this we can have Undo command and replay for the game. looks amazing.
 * Implement the project using application generators like JHipster.
 
+## Technical
+* use ModelMapper for Generating DTOs
+* use ESLint for coding styles
+
 ## Security
 * JWT token support to make sure consistency.
 * Secure web sockets so only the board players can access events.
 * Register, Login, and forget your password.
-* Make the checking of current user a spring request filter
+* Make the checking of current user a spring request filter.
 
 ## Representation
 * improves the overall UI of the system.
 * Make it better for mobile devices.
-* i18n and locale
+* i18n and locale.
 
 ## Persistence
 * Add User entity.
 * Keep events instead of current Entity, and try to generate board using events.
-* Use flyway to manage database migrations
+* Use flyway to manage database migrations.
 * Change database drive and use MySQL in docker deployment.
 
 ## Game flow

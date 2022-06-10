@@ -126,7 +126,7 @@ public class Board {
 
     }
 
-    private SowAction move(String user, Pit selectedPit, int playerIndex) { // todo change to player
+    private SowAction move(String user, Pit selectedPit, int playerIndex) {
         int nextIndex = selectedPit.getId();
         while (!selectedPit.isEmpty()) {
             nextIndex = ++nextIndex % PITS_COUNT;
@@ -216,8 +216,6 @@ public class Board {
     }
 
     public Pit getStorePit(int playerIndex) {
-        // tODo fix me
-
         return getPitByIndex(getStoreIndex(playerIndex));
     }
 
@@ -248,7 +246,7 @@ public class Board {
         } else if (playerIndex == 1) {
             return getSecondHouseId();
         }
-        return -1; // TODO return exception
+        return -1;
     }
 
 }
