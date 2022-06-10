@@ -4,7 +4,7 @@ import { UserContextType } from "./UserContextType";
 const STPRAGE_KEY = "username";
 
 export const UserContext = React.createContext<UserContextType>({
-    user: localStorage.getItem(STPRAGE_KEY),
+    user: null,
     logout: () => { },
     login: () => { }
 });
@@ -15,7 +15,7 @@ export type IUSerProviderProps = {
 }
 
 const UserProvider = ({ children }: IUSerProviderProps) => {
-    const [user, setUser] = React.useState<string | null>("jalal");
+    const [user, setUser] = React.useState<string | null>(localStorage.getItem(STPRAGE_KEY));
 
     const login = (username: string) => {
         localStorage.setItem(STPRAGE_KEY, username);
