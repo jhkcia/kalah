@@ -1,6 +1,14 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import styled from "styled-components";
 import { Board } from "./Board";
+
+const Wrapper = styled.div`
+    background-color: #a64200;
+    background-image: url("/wood-pattern.png");
+    height: 100vh;
+    padding: 100px 10px;
+`;
 
 export function BoardPage(): JSX.Element {
 
@@ -11,8 +19,7 @@ export function BoardPage(): JSX.Element {
     }, [id]);
 
     return (
-        <>
-            Single Board Page for {id}
+        <Wrapper>
             <Board item={
                 {
                     id: 1,
@@ -26,6 +33,6 @@ export function BoardPage(): JSX.Element {
             }
                 player="Player 2"
             />
-        </>
+        </Wrapper>
     );
 } 

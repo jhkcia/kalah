@@ -1,6 +1,5 @@
 import React, { Fragment, lazy, Suspense } from 'react';
-import { BrowserRouter, Router } from 'react-router-dom';
-import './App.css';
+import { BrowserRouter } from 'react-router-dom';
 import { UserContext } from './context/UserContext';
 function App() {
 
