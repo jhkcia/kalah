@@ -17,8 +17,8 @@ public class BoardTest {
         assertEquals(GameStatus.NotStart, board.getStatus());
         assertEquals("user1", board.getPlayer1());
         assertNull(board.getPlayer2());
-        assertNull(board.getWinner());
-        assertNull(board.getCurrentTurn());
+        assertNull(board.getWinnerPlayer());
+        assertNull(board.getCurrentTurnPlayer());
     }
 
     @Test
@@ -48,10 +48,10 @@ public class BoardTest {
         board.join("user2");
 
         assertEquals("user1", board.getPlayer1());
-        assertEquals("user1", board.getCurrentTurn());
+        assertEquals("user1", board.getCurrentTurnPlayer());
         assertEquals("user2", board.getPlayer2());
         assertEquals(GameStatus.Playing, board.getStatus());
-        assertNull(board.getWinner());
+        assertNull(board.getWinnerPlayer());
         for (int i = 0; i < 14; i++) {
             Pit pit = board.getPitByIndex(i);
             assertEquals(i, pit.getId());
@@ -155,9 +155,9 @@ public class BoardTest {
         board.sowSeeds("user1", 4);
 
         assertPitsEquals(new int[]{4, 4, 4, 4, 0, 5, 1, 5, 5, 4, 4, 4, 4, 0}, board);
-        assertEquals("user2", board.getCurrentTurn());
+        assertEquals("user2", board.getCurrentTurnPlayer());
         assertEquals(GameStatus.Playing, board.getStatus());
-        assertNull(board.getWinner());
+        assertNull(board.getWinnerPlayer());
     }
 
     @Test
@@ -169,9 +169,9 @@ public class BoardTest {
         board.sowSeeds("user1", 5);
 
         assertPitsEquals(new int[]{5, 4, 4, 4, 0, 0, 1, 5, 5, 5, 5, 5, 5, 0}, board);
-        assertEquals("user2", board.getCurrentTurn());
+        assertEquals("user2", board.getCurrentTurnPlayer());
         assertEquals(GameStatus.Playing, board.getStatus());
-        assertNull(board.getWinner());
+        assertNull(board.getWinnerPlayer());
     }
 
     @Test
@@ -183,9 +183,9 @@ public class BoardTest {
         board.sowSeeds("user1", 0);
 
         assertPitsEquals(new int[]{0, 5, 5, 5, 0, 5, 8, 0, 0, 5, 5, 5, 5, 0}, board);
-        assertEquals("user2", board.getCurrentTurn());
+        assertEquals("user2", board.getCurrentTurnPlayer());
         assertEquals(GameStatus.Playing, board.getStatus());
-        assertNull(board.getWinner());
+        assertNull(board.getWinnerPlayer());
     }
 
     @Test
@@ -196,9 +196,9 @@ public class BoardTest {
         board.sowSeeds("user1", 2);
 
         assertPitsEquals(new int[]{4, 4, 0, 5, 5, 5, 1, 4, 4, 4, 4, 4, 4, 0}, board);
-        assertEquals("user1", board.getCurrentTurn());
+        assertEquals("user1", board.getCurrentTurnPlayer());
         assertEquals(GameStatus.Playing, board.getStatus());
-        assertNull(board.getWinner());
+        assertNull(board.getWinnerPlayer());
     }
 
     @Test
@@ -210,9 +210,9 @@ public class BoardTest {
         board.sowSeeds("user1", 5);
 
         assertPitsEquals(new int[]{0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 27}, board);
-        assertEquals(null, board.getCurrentTurn());
+        assertEquals(null, board.getCurrentTurnPlayer());
         assertEquals(GameStatus.Finished, board.getStatus());
-        assertEquals("user2", board.getWinner());
+        assertEquals("user2", board.getWinnerPlayer());
     }
 
     @Test
@@ -224,9 +224,9 @@ public class BoardTest {
         board.sowSeeds("user1", 5);
 
         assertPitsEquals(new int[]{0, 0, 0, 0, 0, 0, 24, 0, 0, 0, 0, 0, 0, 24}, board);
-        assertEquals(null, board.getCurrentTurn());
+        assertEquals(null, board.getCurrentTurnPlayer());
         assertEquals(GameStatus.Finished, board.getStatus());
-        assertEquals(null, board.getWinner());
+        assertEquals(null, board.getWinnerPlayer());
     }
 
     @Test
@@ -237,9 +237,9 @@ public class BoardTest {
         board.sowSeeds("user1", 0);
 
         assertPitsEquals(new int[]{0, 5, 5, 5, 5, 4, 0, 4, 4, 4, 4, 4, 4, 0}, board);
-        assertEquals("user2", board.getCurrentTurn());
+        assertEquals("user2", board.getCurrentTurnPlayer());
         assertEquals(GameStatus.Playing, board.getStatus());
-        assertNull(board.getWinner());
+        assertNull(board.getWinnerPlayer());
     }
 
     @Test

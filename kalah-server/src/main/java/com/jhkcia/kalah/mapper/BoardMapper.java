@@ -12,11 +12,11 @@ public class BoardMapper {
             pits[i] = board.getPitByIndex(i).getStones();
         }
 
-        return new BoardDto(board.getId(), board.getPlayer1(), board.getPlayer2(), board.getCurrentTurn(), board.getWinner(), board.getStatus(), pits);
+        return new BoardDto(board.getId(), board.getPlayer1(), board.getPlayer2(), board.getCurrentTurnPlayer(), board.getWinnerPlayer(), board.getStatus(), pits);
     }
 
     public static BoardListDto convertToListDto(Board board) {
-        return new BoardListDto(board.getId(), board.getPlayer1(), board.getPlayer2(), board.getCurrentTurn(), board.getWinner(), board.getStatus());
+        return new BoardListDto(board.getId(), board.getPlayer1(), board.getPlayer2(), board.getCurrentTurnPlayer(), board.getWinnerPlayer(), board.getStatus());
     }
 
 }

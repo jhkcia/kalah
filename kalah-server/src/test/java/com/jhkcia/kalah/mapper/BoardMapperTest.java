@@ -22,9 +22,9 @@ public class BoardMapperTest {
         Assert.assertEquals(b.getId(), boardDto.getId());
         Assert.assertEquals(b.getPlayer1(), boardDto.getPlayer1());
         Assert.assertEquals(b.getPlayer2(), boardDto.getPlayer2());
-        Assert.assertEquals(b.getWinner(), boardDto.getWinner());
+        Assert.assertEquals(b.getWinnerPlayer(), boardDto.getWinner());
         Assert.assertEquals(b.getStatus(), boardDto.getStatus());
-        Assert.assertEquals(b.getCurrentTurn(), boardDto.getCurrentTurn());
+        Assert.assertEquals(b.getCurrentTurnPlayer(), boardDto.getCurrentTurn());
         for (int i = 0; i < Board.PITS_COUNT; i++) {
             Assert.assertEquals(b.getPitByIndex(i).getStones(), boardDto.getPits()[i]);
         }
@@ -44,9 +44,9 @@ public class BoardMapperTest {
         Assert.assertEquals(b.getId(), boardDto.getId());
         Assert.assertEquals(b.getPlayer1(), boardDto.getPlayer1());
         Assert.assertEquals(b.getPlayer2(), boardDto.getPlayer2());
-        Assert.assertEquals(b.getWinner(), boardDto.getWinner());
+        Assert.assertEquals(b.getWinnerPlayer(), boardDto.getWinner());
         Assert.assertEquals(b.getStatus(), boardDto.getStatus());
-        Assert.assertEquals(b.getCurrentTurn(), boardDto.getCurrentTurn());
+        Assert.assertEquals(b.getCurrentTurnPlayer(), boardDto.getCurrentTurn());
 
     }
 }

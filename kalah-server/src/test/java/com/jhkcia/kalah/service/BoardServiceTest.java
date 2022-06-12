@@ -47,7 +47,7 @@ public class BoardServiceTest {
         Assert.assertTrue(board.getId() > 0);
         Assert.assertEquals("user1", board.getPlayer1());
         Assert.assertNull(board.getPlayer2());
-        Assert.assertNull(board.getWinner());
+        Assert.assertNull(board.getWinnerPlayer());
         Assert.assertEquals(GameStatus.NotStart, board.getStatus());
 
         Mockito.verify(notificationSender, never()).notifyUpdate(anyLong(), any());
@@ -123,7 +123,7 @@ public class BoardServiceTest {
 
         Assert.assertNotNull(newBoard);
         Assert.assertEquals(board.getId(), newBoard.getId());
-        Assert.assertEquals("user1", newBoard.getCurrentTurn());
+        Assert.assertEquals("user1", newBoard.getCurrentTurnPlayer());
         Assert.assertEquals("user1", newBoard.getPlayer1());
         Assert.assertEquals("user2", newBoard.getPlayer2());
 
@@ -146,9 +146,9 @@ public class BoardServiceTest {
         board = boardService.sowSeeds("user1", board.getId(), 0);
 
         assertPitsEquals(new int[]{0, 5, 5, 5, 5, 4, 0, 4, 4, 4, 4, 4, 4, 0}, board);
-        assertEquals("user2", board.getCurrentTurn());
+        assertEquals("user2", board.getCurrentTurnPlayer());
         assertEquals(GameStatus.Playing, board.getStatus());
-        assertNull(board.getWinner());
+        assertNull(board.getWinnerPlayer());
 
         Mockito.verify(notificationSender, times(1)).notifyUpdate(board.getId(), "SOW_SEEDS");
 
@@ -174,7 +174,7 @@ public class BoardServiceTest {
         Assert.assertEquals(sampleBoard.getId(), board.getId());
         Assert.assertEquals("user1", board.getPlayer1());
         Assert.assertNull(board.getPlayer2());
-        Assert.assertNull(board.getWinner());
+        Assert.assertNull(board.getWinnerPlayer());
         Assert.assertEquals(GameStatus.NotStart, board.getStatus());
 
         Mockito.verify(notificationSender, never()).notifyUpdate(anyLong(), any());

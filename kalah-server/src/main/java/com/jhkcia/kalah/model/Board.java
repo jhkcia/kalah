@@ -22,8 +22,8 @@ public class Board {
     private long id;
     private String player1;
     private String player2;
-    private String currentTurn;
-    private String winner;
+    private String currentTurnPlayer;
+    private String winnerPlayer;
     private GameStatus status;
     @ElementCollection
     private List<Pit> pits;
@@ -69,7 +69,7 @@ public class Board {
             throw new BoardIsFullException(this.getId());
         }
         this.player2 = player;
-        this.currentTurn = this.player1;
+        this.currentTurnPlayer = this.player1;
         this.status = GameStatus.Playing;
     }
 
@@ -100,8 +100,8 @@ public class Board {
         this.player2 = player2;
     }
 
-    public String getWinner() {
-        return winner;
+    public String getWinnerPlayer() {
+        return winnerPlayer;
     }
 
     public GameStatus getStatus() {
@@ -112,14 +112,14 @@ public class Board {
         this.id = id;
     }
 
-    public String getCurrentTurn() {
-        return currentTurn;
+    public String getCurrentTurnPlayer() {
+        return currentTurnPlayer;
     }
 
     private int getCurrentTurnIndex() {
-        if (currentTurn.equals(player1)) {
+        if (currentTurnPlayer.equals(player1)) {
             return 0;
-        } else if (currentTurn.equals(player2)) {
+        } else if (currentTurnPlayer.equals(player2)) {
             return 1;
         }
         return -1;
@@ -156,7 +156,7 @@ public class Board {
         if (status != GameStatus.Playing) {
             throw new InvalidSowException("Can not sow pit while game is not playing.");
         }
-        if (!currentTurn.equals(player)) {
+        if (!currentTurnPlayer.equals(player)) {
             throw new InvalidSowException("It is not your turn.");
         }
         Pit pit = getPitByIndex(pitIndex);
@@ -188,13 +188,13 @@ public class Board {
             int p1Score = getStorePit(0).getStones();
             int p2Score = getStorePit(1).getStones();
             if (p1Score > p2Score) {
-                this.winner = player1;
+                this.winnerPlayer = player1;
             } else if (p1Score < p2Score) {
-                this.winner = player2;
+                this.winnerPlayer = player2;
             } else {
-                this.winner = null;
+                this.winnerPlayer = null;
             }
-            this.currentTurn = null;
+            this.currentTurnPlayer = null;
             this.status = GameStatus.Finished;
         }
     }
@@ -204,10 +204,10 @@ public class Board {
     }
 
     private void changeTurn() {
-        if (currentTurn.equals(player1)) {
-            currentTurn = player2;
-        } else if (currentTurn.equals(player2)) {
-            currentTurn = player1;
+        if (currentTurnPlayer.equals(player1)) {
+            currentTurnPlayer = player2;
+        } else if (currentTurnPlayer.equals(player2)) {
+            currentTurnPlayer = player1;
         }
     }
 
@@ -219,8 +219,8 @@ public class Board {
         return getPitByIndex(getStoreIndex(playerIndex));
     }
 
-    public void setCurrentTurn(String currentTurn) {
-        this.currentTurn = currentTurn;
+    public void setCurrentTurnPlayer(String currentTurn) {
+        this.currentTurnPlayer = currentTurn;
     }
 
     public List<Pit> getPlayerHouses(int playerIndex) {
