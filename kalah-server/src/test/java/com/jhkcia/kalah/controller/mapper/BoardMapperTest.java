@@ -10,7 +10,7 @@ import org.junit.Test;
 public class BoardMapperTest {
 
     @Test
-    public void testConvertToDto() {
+    public void should_concert_entity_to_dto() {
         Board b = new Board("player1");
         BoardTestUtils.setFieldValue(b, "player2", "player2");
         BoardTestUtils.setFieldValue(b, "winnerPlayer", "player2");
@@ -32,7 +32,7 @@ public class BoardMapperTest {
     }
 
     @Test
-    public void testConvertToListDto() {
+    public void should_concert_entity_to_list_dto() {
         Board b = new Board("player1");
         BoardTestUtils.setFieldValue(b, "player2", "player2");
         BoardTestUtils.setFieldValue(b, "winnerPlayer", "player2");

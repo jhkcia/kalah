@@ -12,7 +12,7 @@ import static com.jhkcia.kalah.model.BoardTestUtils.assertPitsEquals;
 
 public class BoardTest {
     @Test
-    public void testInitializing() {
+    public void should_init_board() {
         Board board = new Board("user1");
         assertEquals(GameStatus.NotStart, board.getStatus());
         assertEquals("user1", board.getPlayer1());
@@ -22,7 +22,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testGetPitByIndex() {
+    public void should_get_pit_by_index() {
         Board board = new Board("user1");
 
         for (int i = 0; i < 14; i++) {
@@ -42,7 +42,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testJoinBoard() {
+    public void should_join_board() {
         Board board = new Board("user1");
 
         board.join("user2");
@@ -64,7 +64,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testShouldNotJoinFullBoard() {
+    public void should_not_join_full_board() {
         Board board = new Board();
         board.setId(1);
         board.setPlayer1("user1");
@@ -76,7 +76,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testShouldNotSowNotStartedBoard() {
+    public void should_not_sow_not_started_board() {
         Board board = new Board("user1");
 
         Exception exception = Assert.assertThrows(InvalidSowException.class, () -> board.sowSeeds("user1", 1));
@@ -85,7 +85,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testShouldNotSowInvalidTurn() {
+    public void should_not_sow_on_invalid_turn() {
         Board board = new Board("user1");
         board.join("user2");
 
@@ -95,7 +95,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testShouldNotSowInvalidPitIndex() {
+    public void should_not_sow_invalid_pit_index() {
         Board board = new Board("user1");
         board.join("user2");
 
@@ -107,7 +107,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testShouldNotSowOtherSidePit() {
+    public void should_not_sow_other_side_pit() {
         Board board = new Board("user1");
         board.join("user2");
 
@@ -117,7 +117,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testShouldNotSowStorePit() {
+    public void should_not_sow_store_pit() {
         Board board = new Board("user1");
         board.join("user2");
 
@@ -127,7 +127,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testShouldNotSowEmptyPit() {
+    public void should_not_sow_empty_pit() {
         Board board = new Board("user1");
         board.join("user2");
         BoardTestUtils.setPits(board, new int[]{0, 4, 0, 5, 5, 5, 1, 4, 4, 4, 4, 4, 4, 0});
@@ -138,7 +138,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testShouldNotSowFinishedGame() {
+    public void should_not_sow_pit_in_finished_game() {
         Board board = new Board("user1");
         board.join("user2");
         BoardTestUtils.setStatus(board, GameStatus.Finished);
@@ -148,7 +148,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testShouldCanStoreStoneOnOwnStore() {
+    public void should_land_pit_on_user_store_during_sowing() {
         Board board = new Board("user1");
         board.join("user2");
 
@@ -161,7 +161,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testShouldNotStoreStoneOnOpponentsStore() {
+    public void should_not_land_pit_on_opponent_store_during_sowing() {
         Board board = new Board("user1");
         board.join("user2");
         BoardTestUtils.setPits(board, new int[]{4, 4, 4, 4, 0, 8, 0, 4, 4, 4, 4, 4, 4, 0});
@@ -175,7 +175,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testShouldCaptureOpponentsStonesWhenLastSeedLandInOwnEmptyHouse() {
+    public void should_capture_opponents_stones_when_last_seed_land_in_own_empty_house() {
         Board board = new Board("user1");
         board.join("user2");
         BoardTestUtils.setPits(board, new int[]{4, 4, 4, 4, 0, 5, 1, 0, 6, 5, 5, 5, 5, 0});
@@ -189,7 +189,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testShouldGetAdditionalMoveWhenLastSeedLandInPlayerStore() {
+    public void should_get_additional_move_when_last_seed_land_in_player_store() {
         Board board = new Board("user1");
         board.join("user2");
 
@@ -202,7 +202,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testEndGameWhenThereIsNoSeed() {
+    public void should_end_game_when_no_seed_exists() {
         Board board = new Board("user1");
         board.join("user2");
         BoardTestUtils.setPits(board, new int[]{0, 0, 0, 0, 0, 2, 20, 0, 6, 5, 5, 5, 5, 0});
@@ -216,7 +216,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testEndGameInDraw() {
+    public void should_end_game_in_draw() {
         Board board = new Board("user1");
         board.join("user2");
         BoardTestUtils.setPits(board, new int[]{0, 0, 0, 0, 0, 2, 23, 0, 3, 5, 5, 5, 5, 0});
@@ -230,7 +230,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testSowPit() {
+    public void should_sow_pits() {
         Board board = new Board("user1");
         board.join("user2");
 
@@ -243,7 +243,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testPitType() {
+    public void should_return_proper_pit_type() {
         Board board = new Board("user1");
         for (int i = 0; i < 14; i++) {
             Pit p = new Pit(i);
@@ -258,7 +258,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testBelongsTo() {
+    public void should_return_owner_of_pit() {
         Board board = new Board("user1");
         for (int i = 0; i < 14; i++) {
             Pit p = new Pit(i);
@@ -273,7 +273,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testGetOppositePit() {
+    public void should_return_opposite_pit() {
         Board board = new Board("user1");
         Assert.assertEquals(12, board.getOppositePit(board.getPitByIndex(0)).getId());
         Assert.assertEquals(11, board.getOppositePit(board.getPitByIndex(1)).getId());
@@ -291,7 +291,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testGetStoreIndex() {
+    public void should_get_store_indexes() {
         Board board = new Board("player1");
         Assert.assertEquals(6, board.getStoreIndex(0));
         Assert.assertEquals(13, board.getStoreIndex(1));
@@ -299,7 +299,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testInitialStoneCount() {
+    public void should_initialize_stones_correctly() {
         Board b = new Board("player1");
         for (int i = 0; i < 14; i++) {
             Pit p = b.getPitByIndex(i);

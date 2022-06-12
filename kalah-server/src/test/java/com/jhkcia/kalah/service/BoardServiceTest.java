@@ -39,7 +39,7 @@ public class BoardServiceTest {
     private BoardRepository boardRepository;
 
     @Test
-    public void testNewBoard() {
+    public void should_create_new_board() {
         Board board = boardService.newBoard("user1");
 
         Assert.assertNotNull(board);
@@ -53,7 +53,7 @@ public class BoardServiceTest {
     }
 
     @Test
-    public void testGetNewUserBoardsShouldBeEmpty() {
+    public void should_new_user_not_have_board() {
         List<Board> boards = boardService.getUserBoards("user1");
 
         Assert.assertNotNull(boards);
@@ -61,7 +61,7 @@ public class BoardServiceTest {
     }
 
     @Test
-    public void testGetUserBoardsShouldReturnUserCreatedBoards() {
+    public void should_get_user_boards_contain_created_boards() {
         Board board = boardService.newBoard("user1");
 
         List<Board> boards = boardService.getUserBoards("user1");
@@ -72,7 +72,7 @@ public class BoardServiceTest {
     }
 
     @Test
-    public void testGetUserBoardsShouldReturnUserJoinedBoards() {
+    public void should_get_user_boards_contain_joined_boards() {
         Board board = new Board();
         board.setPlayer1("user1");
         board.setPlayer2("user2");
@@ -86,7 +86,7 @@ public class BoardServiceTest {
     }
 
     @Test
-    public void testGetAvailableBoardsShouldShowJustEmptyBoards() {
+    public void should_get_available_not_show_full_boards() {
         Board board = new Board();
         board.setPlayer1("user1");
         board.setPlayer2("user2");
@@ -103,7 +103,7 @@ public class BoardServiceTest {
     }
 
     @Test
-    public void testGetAvailableBoardsShouldNotShowCurrentUserBoards() {
+    public void should_get_available_not_show_current_user_boards() {
         Board board = new Board();
         board.setPlayer1("user1");
         boardRepository.save(board);
@@ -115,7 +115,7 @@ public class BoardServiceTest {
     }
 
     @Test
-    public void testJoinBoard() {
+    public void should_join_board() {
         Board board = boardService.newBoard("user1");
 
         Board newBoard = boardService.joinBoard("user2", board.getId());
@@ -131,14 +131,14 @@ public class BoardServiceTest {
     }
 
     @Test
-    public void testJoinNotExistBoard() {
+    public void should_not_join_full_board() {
         Exception exception = Assert.assertThrows(BoardNotFoundException.class, () -> boardService.joinBoard("user3", -1));
 
         Assert.assertEquals("Board Not Found.", exception.getMessage());
     }
 
     @Test
-    public void testSowSeeds() {
+    public void should_sow_seeds() {
         Board board = boardService.newBoard("user1");
         board = boardService.joinBoard("user2", board.getId());
 
@@ -154,7 +154,7 @@ public class BoardServiceTest {
     }
 
     @Test
-    public void testSowSeedsOfNotExistBoard() {
+    public void should_sow_seeds_throw_when_board_not_exists() {
         Exception exception = Assert.assertThrows(BoardNotFoundException.class, () -> boardService.sowSeeds("user3", -1, 2));
 
         Assert.assertEquals("Board Not Found.", exception.getMessage());
@@ -164,7 +164,7 @@ public class BoardServiceTest {
     }
 
     @Test
-    public void testGetBoard() {
+    public void should_get_board() {
         Board sampleBoard = boardService.newBoard("user1");
 
         Board board = boardService.getBoard(sampleBoard.getId());

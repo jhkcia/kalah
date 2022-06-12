@@ -34,7 +34,7 @@ public class BoardControllerTest {
     BoardService boardService;
 
     @Test
-    public void testCreateGame() throws Exception {
+    public void should_create_board() throws Exception {
         Board sampleBoard = new Board("sample-user");
         BoardTestUtils.setFieldValue(sampleBoard, "id", 4);
         when(boardService.newBoard("sample-user")).thenReturn(sampleBoard);
@@ -55,7 +55,7 @@ public class BoardControllerTest {
     }
 
     @Test
-    public void testControllerResponseWithEmptyUsername() throws Exception {
+    public void should_throw_exception_when_username_is_empty() throws Exception {
         ResultActions result = mockMvc.perform(post("/api/board")
                 .header("username", "")
                 .contentType(MediaType.APPLICATION_JSON));
@@ -65,7 +65,7 @@ public class BoardControllerTest {
     }
 
     @Test
-    public void testControllerResponseWithoutUsername() throws Exception {
+    public void should_throw_exception_when_username_not_provided() throws Exception {
         ResultActions result = mockMvc.perform(post("/api/board")
                 .contentType(MediaType.APPLICATION_JSON));
 
@@ -74,7 +74,7 @@ public class BoardControllerTest {
     }
 
     @Test
-    public void testJoinBoard() throws Exception {
+    public void should_join_board() throws Exception {
         Board sampleBoard = new Board("sample-user");
         BoardTestUtils.setFieldValue(sampleBoard, "id", 4);
         BoardTestUtils.setFieldValue(sampleBoard, "player2", "second-user");
@@ -91,7 +91,7 @@ public class BoardControllerTest {
     }
 
     @Test
-    public void testGetAvailableBoards() throws Exception {
+    public void should_return_available_boards() throws Exception {
         Board sampleBoard = new Board("test");
         Board sampleBoard2 = new Board("test");
         when(boardService.getAvailableBoards("user")).thenReturn(Arrays.asList(sampleBoard, sampleBoard2));
@@ -106,7 +106,7 @@ public class BoardControllerTest {
     }
 
     @Test
-    public void testGetSelfBoards() throws Exception {
+    public void should_return_self_boards() throws Exception {
         Board sampleBoard = new Board("test");
         Board sampleBoard2 = new Board("test");
         when(boardService.getUserBoards("user")).thenReturn(Arrays.asList(sampleBoard, sampleBoard2));
@@ -121,7 +121,7 @@ public class BoardControllerTest {
     }
 
     @Test
-    public void testSowSeeds() throws Exception {
+    public void should_sow_boards() throws Exception {
         Board sampleBoard = new Board("test");
         BoardTestUtils.setFieldValue(sampleBoard, "id", 4);
         when(boardService.sowSeeds("user", 4, 2)).thenReturn(sampleBoard);
@@ -136,7 +136,7 @@ public class BoardControllerTest {
     }
 
     @Test
-    public void testGetBoard() throws Exception {
+    public void should_get_board() throws Exception {
         Board sampleBoard = new Board("test");
         BoardTestUtils.setFieldValue(sampleBoard, "id", 4);
         when(boardService.getBoard( 4)).thenReturn(sampleBoard);
