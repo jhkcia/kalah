@@ -1,4 +1,4 @@
-package com.jhkcia.kalah.dto;
+package com.jhkcia.kalah.controller.dto;
 
 public class SowSeedDto {
     private int pitIndex;

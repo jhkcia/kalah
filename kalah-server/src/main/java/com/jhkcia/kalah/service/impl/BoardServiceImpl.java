@@ -1,10 +1,11 @@
-package com.jhkcia.kalah.service;
+package com.jhkcia.kalah.service.impl;
 
-import com.jhkcia.kalah.excaption.BoardNotFoundException;
+import com.jhkcia.kalah.exception.BoardNotFoundException;
 import com.jhkcia.kalah.model.Board;
 import com.jhkcia.kalah.repository.BoardRepository;
-import com.jhkcia.kalah.service.external.BoardNotificationSender;
 
+import com.jhkcia.kalah.service.BoardNotificationSender;
+import com.jhkcia.kalah.service.BoardService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

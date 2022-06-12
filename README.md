@@ -8,9 +8,9 @@ You can find the rules of the game on Wikipedia: https://en.wikipedia.org/wiki/K
 
 # Design
 For the backend, I choose a Java Monolithic application with clean architecture and tried to use Test driven development approach for implementing this project. I also implement an SQL database and for the development, I used the H2 database. UI communicating with the backend over REST, and because this is a turn-based game, I used WebSocket to notify all players in a game about changes on the board.
-
-The sowing logic is implemented through the Chain of Responsibility pattern using the GameRule interface. Every turn goes through a chain of rules, and if a rule changes or a new rule is added to the game, you just need to edit these interface implementations or create a concrete class for that.
-the logic of pits arrangement is in board Entity because it knows the structure of the pits in a board. for simplifying the database I have one Board Entity, but it would be better to have different entities for game and board. 
+Main entities for this project are Board, Pit to store information of board and pits. for simplifying the database I have one Board Entity, but it would be better to have different entities for game and board. 
+The sowing logic is implemented using the GameRule interface. Every turn goes through a set of rules, and if a rule changes or a new rule is added to the game, you just need to edit these interface implementations or create a concrete class for that.
+The logic of pits arrangement is in board Entity because it knows the structure of the pits in a board. 
 
 For the front end, I used React.js and typescript and I also tried to use the TDD approach but due to time limits, I just implement tests for the board component. I used functional components and hooks like useState, useEffect, useCallback, useContext. I also implement some end-to-end tests with Cypress to test important parts of the game.
 

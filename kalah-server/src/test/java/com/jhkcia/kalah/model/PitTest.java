@@ -1,6 +1,6 @@
 package com.jhkcia.kalah.model;
 
-import com.jhkcia.kalah.excaption.InvalidSowException;
+import com.jhkcia.kalah.exception.InvalidSowException;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -1,9 +1,8 @@
-package com.jhkcia.kalah.service.infrastructure;
+package com.jhkcia.kalah.service.impl;
 
+import com.jhkcia.kalah.service.BoardNotificationSender;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
-
-import com.jhkcia.kalah.service.external.BoardNotificationSender;
 
 @Component
 public class WebsocketNotificationSender implements BoardNotificationSender {

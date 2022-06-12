@@ -1,4 +1,4 @@
-package com.jhkcia.kalah.infrastructure;
+package com.jhkcia.kalah.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

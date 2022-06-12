@@ -1,4 +1,4 @@
-package com.jhkcia.kalah.excaption;
+package com.jhkcia.kalah.exception;
 
 public class InvalidPitException extends KalahExceptionBase {
     public InvalidPitException(int pitIndex) {

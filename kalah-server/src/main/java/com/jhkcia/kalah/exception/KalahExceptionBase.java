@@ -1,6 +1,4 @@
-package com.jhkcia.kalah.excaption;
-
-import org.springframework.http.HttpStatus;
+package com.jhkcia.kalah.exception;
 
 public abstract class KalahExceptionBase extends RuntimeException {
 
