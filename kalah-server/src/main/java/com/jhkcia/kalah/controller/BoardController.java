@@ -1,10 +1,10 @@
 package com.jhkcia.kalah.controller;
 
-import com.jhkcia.kalah.dto.BoardDto;
-import com.jhkcia.kalah.dto.BoardListDto;
-import com.jhkcia.kalah.dto.SowSeedDto;
+import com.jhkcia.kalah.controller.dto.BoardDto;
+import com.jhkcia.kalah.controller.dto.BoardListDto;
+import com.jhkcia.kalah.controller.dto.SowSeedDto;
 import com.jhkcia.kalah.excaption.InvalidUsernameException;
-import com.jhkcia.kalah.mapper.BoardMapper;
+import com.jhkcia.kalah.controller.mapper.BoardMapper;
 import com.jhkcia.kalah.service.BoardService;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;

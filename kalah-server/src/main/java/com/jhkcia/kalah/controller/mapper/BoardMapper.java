@@ -1,7 +1,7 @@
-package com.jhkcia.kalah.mapper;
+package com.jhkcia.kalah.controller.mapper;
 
-import com.jhkcia.kalah.dto.BoardDto;
-import com.jhkcia.kalah.dto.BoardListDto;
+import com.jhkcia.kalah.controller.dto.BoardDto;
+import com.jhkcia.kalah.controller.dto.BoardListDto;
 import com.jhkcia.kalah.model.Board;
 
 public class BoardMapper {

@@ -1,24 +1,22 @@
-package com.jhkcia.kalah.dto;
+package com.jhkcia.kalah.controller.dto;
 
 import com.jhkcia.kalah.model.GameStatus;
 
-public class BoardDto {
+public class BoardListDto {
     private long id;
     private String player1;
     private String player2;
     private String currentTurn;
     private String winner;
     private GameStatus status;
-    private int[] pits;
 
-    public BoardDto(long id, String player1, String player2, String currentTurn, String winner, GameStatus status, int[] pits) {
+    public BoardListDto(long id, String player1, String player2, String currentTurn, String winner, GameStatus status) {
         this.id = id;
         this.player1 = player1;
         this.player2 = player2;
         this.currentTurn = currentTurn;
         this.winner = winner;
         this.status = status;
-        this.pits = pits;
     }
 
     public long getId() {
@@ -45,7 +43,4 @@ public class BoardDto {
         return status;
     }
 
-    public int[] getPits() {
-        return pits;
-    }
 }
