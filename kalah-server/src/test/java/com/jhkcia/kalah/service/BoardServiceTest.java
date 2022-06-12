@@ -4,7 +4,6 @@ import com.jhkcia.kalah.exception.BoardNotFoundException;
 import com.jhkcia.kalah.model.Board;
 import com.jhkcia.kalah.model.GameStatus;
 import com.jhkcia.kalah.repository.BoardRepository;
-import com.jhkcia.kalah.service.external.BoardNotificationSender;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
