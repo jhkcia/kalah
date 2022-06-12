@@ -7,7 +7,7 @@ import org.junit.Test;
 public class PitTest {
 
     @Test
-    public void testIsEmptyFalse() {
+    public void should_not_empty() {
         Pit pit = new Pit(0);
         pit.setStones(4);
 
@@ -15,7 +15,7 @@ public class PitTest {
     }
 
     @Test
-    public void testIsEmptyTrue() {
+    public void should_be_empty() {
         Pit pit = new Pit(0);
         pit.setStones(0);
         
@@ -23,7 +23,7 @@ public class PitTest {
     }
 
     @Test
-    public void testRemoveAll() {
+    public void should_remove_all() {
         Pit pit = new Pit(5);
         pit.setStones(4);
 
@@ -33,7 +33,7 @@ public class PitTest {
     }
 
     @Test
-    public void testAddStone() {
+    public void should_add_single_stone() {
         Pit pit = new Pit(0);
         pit.setStones(4);
 
@@ -43,7 +43,7 @@ public class PitTest {
     }
 
     @Test
-    public void testAddStones() {
+    public void should_add_multiple_stones() {
         Pit pit = new Pit(0);
         pit.setStones(4);
 
@@ -53,7 +53,7 @@ public class PitTest {
     }
 
     @Test
-    public void testRemoveStone() {
+    public void should_remove_single_stone() {
         Pit pit = new Pit(0);
         pit.setStones(4);
 
@@ -63,7 +63,7 @@ public class PitTest {
     }
 
     @Test
-    public void testRemoveStones() {
+    public void should_remove_multiple_stones() {
         Pit pit = new Pit(0);
         pit.setStones(4);
 
@@ -73,7 +73,7 @@ public class PitTest {
     }
 
     @Test
-    public void testRemoveStonesMoreThanCurrentStones() {
+    public void should_throw_exception_on_removing_more_stones() {
         Pit pit = new Pit(1);
         pit.setStones(4);
 
