@@ -67,11 +67,12 @@ export function LoginPage(): JSX.Element {
                 <Form onSubmit={handleSubmit}>
                     <Title>Login</Title>
                     <Input
+                        data-testid="usernameInput"
                         name="username"
                         value={username}
                         onChange={handleUsernameChange}
                     />
-                    <Button disabled={username === ''}>Login</Button>
+                    <Button  data-testid="usernameButton" disabled={username === ''}>Login</Button>
                 </Form>
             </Wrapper>
         </>
