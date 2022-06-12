@@ -13,8 +13,8 @@ public class BoardMapperTest {
     public void testConvertToDto() {
         Board b = new Board("player1");
         BoardTestUtils.setFieldValue(b, "player2", "player2");
-        BoardTestUtils.setFieldValue(b, "winner", "player2");
-        BoardTestUtils.setFieldValue(b, "currentTurn", "player2");
+        BoardTestUtils.setFieldValue(b, "winnerPlayer", "player2");
+        BoardTestUtils.setFieldValue(b, "currentTurnPlayer", "player2");
         BoardTestUtils.setFieldValue(b, "id", 5L);
 
         BoardDto boardDto = BoardMapper.convertToDto(b);
@@ -35,8 +35,8 @@ public class BoardMapperTest {
     public void testConvertToListDto() {
         Board b = new Board("player1");
         BoardTestUtils.setFieldValue(b, "player2", "player2");
-        BoardTestUtils.setFieldValue(b, "winner", "player2");
-        BoardTestUtils.setFieldValue(b, "currentTurn", "player2");
+        BoardTestUtils.setFieldValue(b, "winnerPlayer", "player2");
+        BoardTestUtils.setFieldValue(b, "currentTurnPlayer", "player2");
         BoardTestUtils.setFieldValue(b, "id", 5L);
 
         BoardListDto boardDto = BoardMapper.convertToListDto(b);

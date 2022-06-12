@@ -1,6 +1,6 @@
 package com.jhkcia.kalah.service;
 
-import com.jhkcia.kalah.excaption.BoardNotFoundException;
+import com.jhkcia.kalah.exception.BoardNotFoundException;
 import com.jhkcia.kalah.model.Board;
 import com.jhkcia.kalah.repository.BoardRepository;
 import com.jhkcia.kalah.service.external.BoardNotificationSender;

@@ -1,8 +1,8 @@
 package com.jhkcia.kalah.model;
 
-import com.jhkcia.kalah.excaption.BoardIsFullException;
-import com.jhkcia.kalah.excaption.InvalidPitException;
-import com.jhkcia.kalah.excaption.InvalidSowException;
+import com.jhkcia.kalah.exception.BoardIsFullException;
+import com.jhkcia.kalah.exception.InvalidPitException;
+import com.jhkcia.kalah.exception.InvalidSowException;
 import org.junit.Assert;
 import org.junit.Test;
 

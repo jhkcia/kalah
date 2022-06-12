@@ -3,7 +3,7 @@ package com.jhkcia.kalah.controller;
 import com.jhkcia.kalah.controller.dto.BoardDto;
 import com.jhkcia.kalah.controller.dto.BoardListDto;
 import com.jhkcia.kalah.controller.dto.SowSeedDto;
-import com.jhkcia.kalah.excaption.InvalidUsernameException;
+import com.jhkcia.kalah.exception.InvalidUsernameException;
 import com.jhkcia.kalah.controller.mapper.BoardMapper;
 import com.jhkcia.kalah.service.BoardService;
 import org.springframework.util.StringUtils;
